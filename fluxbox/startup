@@ -28,4 +28,4 @@ gnome-terminal &
 # Because it is the last app you have to run it with ''exec'' before it.
 
 #exec fluxbox -rc $DOTDIR/fluxbox/init
-exec fluxbox -rc $HOME/.fluxbox/init
+exec fluxbox -rc $HOME/.fluxbox/init --log $HOME/fluxbox.log
