@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# fluxbox startup-script:
+#
+# Lines starting with a '#' are ignored.
+
+DOTDIR=sDOTDIR; export DOTDIR
+f=sDOTDIR/fluxbox/startup
+
+if [ -x $f ]; then
+  exec $f
+elif [ -f $f ]; then
+  exec sh $f
+else
+  exec fluxbox
+fi

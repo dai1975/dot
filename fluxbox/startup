@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# fluxbox startup-script:
+#
+# Lines starting with a '#' are ignored.
+
+# Change your keymap:
+xmodmap "$HOME/.Xmodmap"
+
+# Applications you want to run with fluxbox.
+# MAKE SURE THAT APPS THAT KEEP RUNNING HAVE AN ''&'' AT THE END.
+#
+# unclutter -idle 2 &
+# wmnd &
+# wmsmixer -w &
+# idesk &
+#vmware-user
+
+DROPBOXD=$HOME/.dropbox-dist/dropboxd
+if [ -x $DROPBOXD ]; then
+  $DROPBOXD &
+fi
+  
+#xdaliclock -24 -noseconds -geometry 100x50 -fn BUILTIN0 -transparent &
+gnome-terminal &
+
+# And last but not least we start fluxbox.
+# Because it is the last app you have to run it with ''exec'' before it.
+
+#exec fluxbox -rc $DOTDIR/fluxbox/init
+exec fluxbox -rc $HOME/.fluxbox/init
