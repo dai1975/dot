@@ -1,0 +1,52 @@
+#!/bin/sh
+
+getname() {
+    while [ x$1 != x ]; do
+        case x$1 in
+            x-h | x--help | x--bin | x-v | x--verbose | x-q | x--quiet )
+                shift
+                ;;
+            x--vcs | x--color )
+                shift; shift
+                ;;
+            x--name )
+                shift
+                NAME=$1
+                shift
+                ;;
+            x* )
+                NAME=$1
+                shift
+                ;;
+        esac
+    done
+    echo $NAME
+}
+
+shift
+
+NAME=`getname $*`
+cargo new $*
+
+R=$?
+if [ $R -ne 0 ]; then
+    exit $R
+fi
+
+if [ ! -d $NAME ]; then
+    echo "dir not found: $NAME"
+    exit 1
+fi
+
+EL=$NAME/.dir-locals.el
+if [ -e $EL ]; then
+    echo "file already found: $EL"
+    exit 1
+fi
+
+cat <<EOF >$EL
+((nil . ((indent-tabs-mode . nil)))
+ (rust-mode . ((rust-indent-offset . 3)))
+)
+EOF
+#echo "$EL create."

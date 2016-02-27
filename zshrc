@@ -6,11 +6,13 @@ isemacs(){
     return 1
 }
 
+DOTDIR=`dirname $0`
 GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
 
-PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$HOME/bin
+PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin
 export PATH
+
 
 # -- copy from @sirrow --------------------------------------------------------
 # Created by newuser for 4.3.17

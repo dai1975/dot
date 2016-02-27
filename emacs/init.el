@@ -28,7 +28,17 @@
                '("\\.md" . markdown-mode)
                '("SConscript" . python-mode)
                '("SConstruct" . python-mode)
+               '("\\.rs" . rust-mode)
+               '("\\.toml" . toml-mode)
                auto-mode-alist)))
+
+;; --- quickrun -----------------------------------------------
+(require 'quickrun)
+;(push '("*quickrun*") popwin:special-display-config)
+(global-set-key (kbd "C-c C-q") 'quickrun)
+
+;; --- flycheck -----------------------------------------------
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; --- c-mode -----------------------------------------------
 ;; -- keybind
@@ -56,6 +66,9 @@
              (c-set-offset 'arglist-close 0)
              ))
 
+
+;; --- rust --------------------------------------------------------
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
 
 ;; --- autoinsert -----------------------------------------------
 (setq  auto-insert-directory (concat mydotdir "/emacs/autoinsert-templates/"))
