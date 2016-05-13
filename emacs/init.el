@@ -1,6 +1,15 @@
+; basic facilities
 
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
+
+; minibuffer
+(setq max-mini-window-height 1)
+(setq resize-mini-windows nil)
+
+; search
+(setq case-fold-search t)
+(setq isearch-case-fold-search t)
 
 (setq-default indent-tabs-mode nil)
 (setq tab-width 8)
@@ -39,6 +48,18 @@
 
 ;; --- flycheck -----------------------------------------------
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
+
+;(defun flycheck-display-error-messages-unless-error-buffer (errors)
+;  (unless (get-buffer-window flycheck-error-list-buffer)
+;    (flycheck-display-error-messages errors)))
+;(setq flycheck-display-errors-function #'flycheck-display-error-messages-unless-error-buffer)
+
+;(eval-after-load 'flycheck
+;  '(setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
+;  '(setq flycheck-display-errors-function nil)
+;  )
 
 ;; --- c-mode -----------------------------------------------
 ;; -- keybind
