@@ -1,4 +1,5 @@
 escape ^Oo
+term screen-256color
 defscrollback 1000
 autodetach on
 startup_message off
