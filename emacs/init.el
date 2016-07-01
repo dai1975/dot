@@ -1,4 +1,5 @@
-; basic facilities
+;;; init.el --- basic facilities
+;;; Commentary:
 
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
@@ -154,28 +155,28 @@
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 ; http://www.emacswiki.org/emacs/download/multi-term.el
-(require 'multi-term)
-(setq multi-term-program shell-file-name)
-(add-to-list 'term-unbind-key-list '"M-x")
-(add-hook 'term-mode-hook
-          '(lambda ()
-             (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
-             (define-key term-raw-map (kbd "C-y") 'term-paste)
-             (define-key term-raw-map (kbd "C-k")
-               (lambda (&optional arg) (interactive "P")
-                 (funcall 'kill-line arg) (term-send-raw)))
-             (setq ansi-term-color-vector
-                   [unspecified
-                    "#000000"           ; black
-                    "#ff3c3c"           ; red
-                    "#84dd27"           ; green
-                    "#eab93d"           ; yellow
-                    "#135ecc"           ; blue
-                    "#f47006"           ; magenta
-                    "#89b6e2"           ; cyan
-                    "#ffffff"]          ; white
-                   )
-             ))
+;(require 'multi-term)
+;(setq multi-term-program shell-file-name)
+;(add-to-list 'term-unbind-key-list '"M-x")
+;(add-hook 'term-mode-hook
+;          '(lambda ()
+;             (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
+;             (define-key term-raw-map (kbd "C-y") 'term-paste)
+;             (define-key term-raw-map (kbd "C-k")
+;               (lambda (&optional arg) (interactive "P")
+;                 (funcall 'kill-line arg) (term-send-raw)))
+;             (setq ansi-term-color-vector
+;                   [unspecified
+;                    "#000000"           ; black
+;                    "#ff3c3c"           ; red
+;                    "#84dd27"           ; green
+;                    "#eab93d"           ; yellow
+;                    "#135ecc"           ; blue
+;                    "#f47006"           ; magenta
+;                    "#89b6e2"           ; cyan
+;                    "#ffffff"]          ; white
+;                   )
+;             ))
 
 (global-set-key (kbd "C-c C-t")
                 '(lambda ()
