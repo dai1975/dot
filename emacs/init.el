@@ -27,20 +27,14 @@
 (package-initialize)
 
 ;; --- automode -----------------------------------------------
-(setq auto-mode-alist
-      (append (list
-               '("\\.h" . c++-mode)
-               '("\\.cpp" . c++-mode)
-               '("\\.gnus" . emacs-lisp-mode)
-               '("\\.abbrev_defs" . emacs-lisp-mode)
-               '("\\.el$" . emacs-lisp-mode)
-               '("\\.txt$" . text-mode)
-               '("\\.md" . markdown-mode)
-               '("SConscript" . python-mode)
-               '("SConstruct" . python-mode)
-               '("\\.rs" . rust-mode)
-               '("\\.toml" . toml-mode)
-               auto-mode-alist)))
+(add-to-list 'auto-mode-alist '("\\.h\\'"        . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cpp\\'"      . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'$"      . rust-mode))
+(add-to-list 'auto-mode-alist '("\\.toml\\'$"    . toml-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'"      . text-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'$"      . markdown-mode))
+(add-to-list 'auto-mode-alist '("SConscript\\'$" . python-mode))
+(add-to-list 'auto-mode-alist '("SConstruct\\'$" . python-mode))
 
 ;; --- quickrun -----------------------------------------------
 (require 'quickrun)
@@ -186,5 +180,15 @@
                      (multi-term))))
 
 ;; --- ggtags -----------------------------------------------
+
+;; --- simplenote -----------------------------------------------
+(require 'simplenote)
+(setq simplenote-email "dai1975@gmail.com")
+(simplenote-setup)
+
+(require 'simplenote2)
+(setq simplenote2-email "dai1975@gmail.com")
+(simplenote2-setup)
+
 
 
