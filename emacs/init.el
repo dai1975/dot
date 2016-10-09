@@ -14,7 +14,7 @@
 
 (setq-default indent-tabs-mode nil)
 (setq tab-width 8)
-(setq c-basic-offset 3)
+;(setq c-basic-offset 3)
 
 ;; --- package -----------------------------------------------
 (require 'package)
@@ -118,7 +118,7 @@
              (define-key w3m-mode-map [right] 'forward-char)
              ))
 
-;; --- shell -----------------------------------------------
+;; --- shell/terminal -----------------------------------------------
 ;; http://sakito.jp/emacs/emacsshell.html
 (set-language-environment 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -178,6 +178,12 @@
                    (if (get-buffer "*terminal<1>*")
                        (switch-to-buffer "*terminal<1>*")
                      (multi-term))))
+
+;; --- IM -----------------------------------------------
+(when (require 'skk nil t)
+  (global-set-key (kbd "C-x j") 'skk-auto-fill-mode)
+  (setq default-input-method "japanese-skk")
+  (require 'skk-study))
 
 ;; --- ggtags -----------------------------------------------
 
