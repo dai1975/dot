@@ -1,4 +1,4 @@
-TARGETS=emacs fluxbox screen zsh
+TARGETS=emacs fluxbox screen zsh xwin
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
@@ -14,6 +14,10 @@ clean:
 emacs:
 	@sed -e $(SED_E) .emacs > $(HOME)/.emacs
 	@echo update $(HOME)/.emacs
+
+xwin:
+	@sed -e $(SED_E) .Xdefaults > $(HOME)/.Xdefaults
+	@echo update $(HOME)/.Xdefaults
 
 fluxbox:
 	@mkdir -p $(HOME)/.fluxbox

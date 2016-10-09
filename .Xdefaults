@@ -1,0 +1,22 @@
+urxvt.transparent: true
+urxvt.tintColor: #777777
+urxvt.inheritPixmap: true
+urxvt.fading: 30
+
+urxvt.geometry: 72x24
+urxvt.saveLines: 512
+urxvt.scrollBar: false
+urxvt.termName: rxvt
+
+!urxvt.iconFile: /usr/share/icons/Humanity/apps/128/gnome-terminal.svg
+!urxvt.font: xft:Ricty:Bold:size=10:antialias=true
+
+! color
+!urxvt.depth: 32
+urxvt.foreground: rgba:ffff/ffff/ffff/ffff
+urxvt.background: rgba:0000/0000/0000/cccc
+
+! blue
+! from http://blog.asial.co.jp/262
+urxvt.color4: #5566ff
+urxvt.color12: #7799ff

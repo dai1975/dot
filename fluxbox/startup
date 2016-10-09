@@ -22,7 +22,12 @@ if [ -x $DROPBOXD ]; then
 fi
   
 #xdaliclock -24 -noseconds -geometry 100x50 -fn BUILTIN0 -transparent &
-gnome-terminal &
+#gnome-terminal &
+if which urxvt >/dev/null 2>&1; then
+  urxvt &
+else
+  xterm &
+fi
 
 # And last but not least we start fluxbox.
 # Because it is the last app you have to run it with ''exec'' before it.
