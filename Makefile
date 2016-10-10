@@ -2,11 +2,10 @@ TARGETS=emacs fluxbox screen zsh xwin
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
-all: $(TARGETS)
-	
+help: 
+	@echo "$(MAKE) install: install dot files."
 
-install:
-	@for f in $(TARGETS); do $(MAKE) $$f; done
+install: $(TARGETS)
 
 clean:
 	cd $(HOME)/dot && find . -name "*~" | xargs rm
