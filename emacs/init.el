@@ -117,6 +117,8 @@
              (define-key w3m-mode-map [left]  'backward-char)
              (define-key w3m-mode-map [right] 'forward-char)
              ))
+;; --- text-mode -----------------------------------------------
+(setq text-mode-hook 'turn-off-auto-fill)
 
 ;; --- shell/terminal -----------------------------------------------
 ;; http://sakito.jp/emacs/emacsshell.html
