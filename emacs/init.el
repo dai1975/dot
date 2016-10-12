@@ -42,7 +42,7 @@
 (global-set-key (kbd "C-c C-q") 'quickrun)
 
 ;; --- flycheck -----------------------------------------------
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
 
@@ -71,10 +71,12 @@
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
               (my-gtags-mode-defs)
-            )))
+              )
+            ))
 
 (add-hook 'c++-mode-hook
           '(lambda ()
+             (flycheck-mode)
              (c-set-style "stroustrup")
              (setq indent-tabs-mode nil)
              (setq c-basic-offset 3)
@@ -84,7 +86,11 @@
 
 
 ;; --- rust --------------------------------------------------------
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
+(add-hook 'rust-mode-hook
+          '(lambda ()
+             (cargo-minor-mode)
+             (flycheck-mode)
+             ))
 
 ;; --- autoinsert -----------------------------------------------
 (setq  auto-insert-directory (concat mydotdir "/emacs/autoinsert-templates/"))
@@ -118,7 +124,11 @@
              (define-key w3m-mode-map [right] 'forward-char)
              ))
 ;; --- text-mode -----------------------------------------------
-(setq text-mode-hook 'turn-off-auto-fill)
+(remove-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'text-mode-hook
+          '(lambda ()
+             (turn-off-auto-fill)
+             ))
 
 ;; --- shell/terminal -----------------------------------------------
 ;; http://sakito.jp/emacs/emacsshell.html
@@ -183,7 +193,8 @@
 
 ;; --- IM -----------------------------------------------
 (when (require 'skk nil t)
-  (global-set-key (kbd "C-x j") 'skk-auto-fill-mode)
+;  (global-set-key (kbd "C-x j") 'skk-auto-fill-mode)
+  (global-set-key (kbd "C-j") 'skk-mode)
   (setq default-input-method "japanese-skk")
   (require 'skk-study))
 
