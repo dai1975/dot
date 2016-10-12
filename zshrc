@@ -13,6 +13,10 @@ GOPATH=$HOME/local/go; export GOPATH
 PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin
 export PATH
 
+# pyenv
+export PYENV_ROOT="/usr/local/pyenv"
+export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
+
 
 # -- copy from @sirrow --------------------------------------------------------
 # Created by newuser for 4.3.17
@@ -131,8 +135,8 @@ SPROMPT=$tmp_sprompt  # スペル訂正用プロンプト
 
 ### Title (user@hostname) ###
 precmd() {
-    case "${TERM}" in
-	kterm*|xterm*|)
+    case "x${TERM}" in
+	xkterm*|xxterm*)
 	    echo -ne "\033]0;${USER}@${HOST%%.*}\007"
     esac
     psvar=()
