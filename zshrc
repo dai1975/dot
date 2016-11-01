@@ -16,7 +16,7 @@ export PATH
 # pyenv
 export PYENV_ROOT="/usr/local/pyenv"
 export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
-
+eval "$(pyenv init -)"
 
 # -- copy from @sirrow --------------------------------------------------------
 # Created by newuser for 4.3.17
