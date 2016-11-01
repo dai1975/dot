@@ -1,3 +1,4 @@
+urxvt*perl-ext-common: default,matcher,urxvt-clipboard
 urxvt.transparent: true
 urxvt.tintColor: #444444
 urxvt.inheritPixmap: true
