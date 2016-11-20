@@ -36,7 +36,8 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'$"      . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'"       . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'"     . json-mode))
-(add-to-list 'auto-mode-alist '("\\.tag\\'"      . html-mode)) ;;Riot.js
+(add-to-list 'auto-mode-alist '("\\.html\\'"     . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tag\\'"      . web-mode)) ;;Riot.js
 (add-to-list 'auto-mode-alist '("SConscript\\'$" . python-mode))
 (add-to-list 'auto-mode-alist '("SConstruct\\'$" . python-mode))
 
