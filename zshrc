@@ -10,7 +10,7 @@ DOTDIR=`dirname $0`
 GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
 
-PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin
+PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin:$HOME/.cargo/bin
 export PATH
 
 # pyenv
