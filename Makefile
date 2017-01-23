@@ -1,4 +1,4 @@
-TARGETS=emacs fluxbox screen zsh xwin
+TARGETS=emacs stumpwm screen zsh xwin
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
@@ -17,6 +17,10 @@ emacs:
 xwin:
 	@sed -e $(SED_E) .Xdefaults > $(HOME)/.Xdefaults
 	@echo update $(HOME)/.Xdefaults
+
+stumpwm:
+	@sed -e $(SED_E) .stumpwmrc > $(HOME)/.stumpwmrc
+	@echo update $(HOME)/.stumpwmrc
 
 fluxbox:
 	@mkdir -p $(HOME)/.fluxbox
