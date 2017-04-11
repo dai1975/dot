@@ -27,19 +27,21 @@
 (package-initialize)
 
 ;; --- automode -----------------------------------------------
+;;; \\' matches the empty string at the end of the string/buffer
 (add-to-list 'auto-mode-alist '("\\.h\\'"        . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.cpp\\'"      . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.rs\\'$"      . rust-mode))
-(add-to-list 'auto-mode-alist '("\\.toml\\'$"    . toml-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'"       . rust-mode))
+(add-to-list 'auto-mode-alist '("\\.toml\\'"     . toml-mode))
 (add-to-list 'auto-mode-alist '("\\.txt\\'"      . text-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'$"      . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'$"      . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'"       . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'"     . json-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'"     . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag\\'"      . web-mode)) ;;Riot.js
-(add-to-list 'auto-mode-alist '("SConscript\\'$" . python-mode))
-(add-to-list 'auto-mode-alist '("SConstruct\\'$" . python-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'"       . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'"      . typescript-mode))
+(add-to-list 'auto-mode-alist '("SConscript\\'"  . python-mode))
+(add-to-list 'auto-mode-alist '("SConstruct\\'"  . python-mode))
 
 ;; --- quickrun -----------------------------------------------
 (require 'quickrun)
