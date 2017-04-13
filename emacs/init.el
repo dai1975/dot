@@ -39,7 +39,8 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'"     . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag\\'"      . web-mode)) ;;Riot.js
 (add-to-list 'auto-mode-alist '("\\.ts\\'"       . typescript-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'"      . typescript-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'"      . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'"      . web-mode))
 (add-to-list 'auto-mode-alist '("SConscript\\'"  . python-mode))
 (add-to-list 'auto-mode-alist '("SConstruct\\'"  . python-mode))
 
@@ -147,6 +148,34 @@
             (setq flycheck-check-syntax-automatically '(save mode-enabled))
             (eldoc-mode t)
             (company-mode-on)))
+
+;; --- web-mode -----------------------------------------------
+(require 'web-mode)
+(add-hook 'web-mode-hook
+          (lambda ()
+            (let ((ext (file-name-extension buffer-file-name)))
+              (cond ((string-equal "tsx" ext) (setup-tide-mode))
+                    ))))
+
+(setq web-mode-content-type-alist
+      '(("jsx" . "\\.js[x]?\\'")
+        ))
+(custom-set-faces
+ '(web-mode-doctype-face           ((t (:foreground "#4A8ACA"))))
+ '(web-mode-html-tag-face          ((t (:foreground "#4A8ACA"))))
+ '(web-mode-html-attr-name-face    ((t (:foreground "#87CEEB"))))
+ '(web-mode-html-attr-equal-face   ((t (:foreground "#FFFFFF"))))
+ '(web-mode-html-attr-value-face   ((t (:foreground "#D78181"))))
+ '(web-mode-comment-face           ((t (:foreground "#587F35"))))
+ '(web-mode-server-comment-face    ((t (:foreground "#587F35"))))
+
+ '(web-mode-css-at-rule-face       ((t (:foreground "#DFCF44"))))
+ '(web-mode-comment-face           ((t (:foreground "#587F35"))))
+ '(web-mode-css-selector-face      ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-pseudo-class       ((t (:foreground "#DFCF44"))))
+ '(web-mode-css-property-name-face ((t (:foreground "#87CEEB"))))
+ '(web-mode-css-string-face        ((t (:foreground "#D78181"))))
+ )
 
 ;; --- autoinsert -----------------------------------------------
 (setq  auto-insert-directory (concat mydotdir "/emacs/autoinsert-templates/"))
