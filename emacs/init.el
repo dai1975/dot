@@ -206,13 +206,13 @@
 ;; --- ggtags -----------------------------------------------
 
 ;; --- simplenote -----------------------------------------------
-;(require 'simplenote)
-;(setq simplenote-email "dai1975@gmail.com")
-;(simplenote-setup)
+(require 'simplenote)
+(setq simplenote-email "dai1975@gmail.com")
+(simplenote-setup)
 
-(require 'simplenote2)
-(setq simplenote2-email "dai1975@gmail.com")
-(simplenote2-setup)
+;(require 'simplenote2)
+;(setq simplenote2-email "dai1975@gmail.com")
+;(simplenote2-setup)
 
 
 
