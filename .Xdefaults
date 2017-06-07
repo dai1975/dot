@@ -10,7 +10,7 @@ urxvt.scrollBar: false
 urxvt.termName: rxvt
 
 urxvt.allow_bold: false
-urxvt*font: xft:Ricty:pixelsize=18:antialias=true,xft:Noto Sans CJK JP:pixelsize=18:style=DemiLight
+urxvt*font: xft:Ricty:pixelsize=20:antialias=true,xft:Noto Sans CJK JP:pixelsize=20:style=DemiLight
 urxvt.letterSpace: -8
 urxvt.lineSpace: 6
 
