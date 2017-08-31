@@ -34,7 +34,8 @@
 (add-to-list 'auto-mode-alist '("\\.toml\\'"     . toml-mode))
 (add-to-list 'auto-mode-alist '("\\.txt\\'"      . text-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'"       . js2-mode))
+;(add-to-list 'auto-mode-alist '("\\.js\\'"       . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'"       . web-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'"     . json-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'"     . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag\\'"      . web-mode)) ;;Riot.js
