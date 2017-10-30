@@ -10,9 +10,12 @@ urxvt.scrollBar: false
 urxvt.termName: rxvt
 
 urxvt.allow_bold: false
-urxvt*font: xft:Ricty:pixelsize=20:antialias=true,xft:Noto Sans CJK JP:pixelsize=20:style=DemiLight
-urxvt.letterSpace: -8
-urxvt.lineSpace: 6
+#urxvt*font: xft:Ricty:pixelsize=20:antialias=true,xft:Noto Sans CJK JP:pixelsize=20:style=DemiLight
+#urxvt.letterSpace: -8
+#urxvt.lineSpace: 6
+urxvt*font: xft:monospace:pixelsize=16:antialias=true,xft:Noto Sans CJK JP:pixelsize=16:style=DemiLight
+urxvt.letterSpace: -2
+urxvt.lineSpace: 0
 
 !urxvt.iconFile: /usr/share/icons/Humanity/apps/128/gnome-terminal.svg
 !urxvt.font: xft:Ricty:Bold:size=10:antialias=true
