@@ -7,8 +7,11 @@ isemacs(){
 }
 
 DOTDIR=`dirname $0`
-GOROOT=/usr/local/go; export GOROOT
+#GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
+if [ ! -d $GOPATH ]; then
+	mkdir -p $GOPATH
+fi
 
 PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin:$HOME/.cargo/bin
 export PATH
@@ -18,6 +21,8 @@ export PATH
 #export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
 #eval "$(pyenv init -)"
 
+export PATH=$HOME/.anyenv/bin:$PATH
+eval "$(anyenv init -)"
 
 
 # -- copy from @sirrow --------------------------------------------------------
