@@ -21,7 +21,7 @@
 
 (add-to-list 'package-archives '("melpa"        . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
+;(add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/") t)
 
 (package-initialize)
@@ -107,12 +107,12 @@
 ;; --- c-mode -----------------------------------------------
 ;; -- keybind
 (defun my-gtags-mode-defs ()
-  (gtags-mode 1)
-  (define-key c-mode-base-map (kbd "C-q s") 'gtags-find-symbol)
-  (define-key c-mode-base-map (kbd "C-q t") 'gtags-find-tag)
-  (define-key c-mode-base-map (kbd "C-q r") 'gtags-find-rtag)
-  (define-key c-mode-base-map (kbd "C-q f") 'gtags-find-file)
-  (define-key c-mode-base-map (kbd "C-q p") 'gtags-pop-stack)
+;  (gtags-mode 1)
+;  (define-key c-mode-base-map (kbd "C-q s") 'gtags-find-symbol)
+;  (define-key c-mode-base-map (kbd "C-q t") 'gtags-find-tag)
+;  (define-key c-mode-base-map (kbd "C-q r") 'gtags-find-rtag)
+;  (define-key c-mode-base-map (kbd "C-q f") 'gtags-find-file)
+;  (define-key c-mode-base-map (kbd "C-q p") 'gtags-pop-stack)
 )
 
 (add-hook 'c-mode-common-hook
@@ -287,13 +287,13 @@
 ;; --- ggtags -----------------------------------------------
 
 ;; --- simplenote -----------------------------------------------
-(require 'simplenote)
-(setq simplenote-email "dai1975@gmail.com")
-(simplenote-setup)
+;(require 'simplenote)
+;(setq simplenote-email "dai1975@gmail.com")
+;(simplenote-setup)
 
-;(require 'simplenote2)
-;(setq simplenote2-email "dai1975@gmail.com")
-;(simplenote2-setup)
+(require 'simplenote2)
+(setq simplenote2-email "dai1975@gmail.com")
+(simplenote2-setup)
 
 
 
