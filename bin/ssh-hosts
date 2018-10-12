@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cat $HOME/.ssh/config | awk '$1=="Host"{print $2}'|sort

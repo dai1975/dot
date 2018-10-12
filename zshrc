@@ -16,6 +16,12 @@ fi
 PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin:$HOME/.cargo/bin
 export PATH
 
+# keyring
+if [ -n "$DESKTOP_SESSION" ]; then
+  eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
+  export SSH_AUTH_SOCK
+fi
+
 # pyenv
 #export PYENV_ROOT="/usr/local/pyenv"
 #export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"

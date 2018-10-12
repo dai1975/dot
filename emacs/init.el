@@ -26,6 +26,9 @@
 
 (package-initialize)
 
+;; --- editorconfig -----------------------------------------------
+(editorconfig-mode 1)
+
 ;; --- automode -----------------------------------------------
 ;;; \\' matches the empty string at the end of the string/buffer
 (add-to-list 'auto-mode-alist '("\\.h\\'"        . c++-mode))
@@ -145,8 +148,8 @@
 (add-hook 'typescript-mode-hook
           (lambda ()
             (tide-setup)
-            (flycheck-mode t)
-            (setq flycheck-check-syntax-automatically '(save mode-enabled))
+            ;(flycheck-mode t)
+            ;(setq flycheck-check-syntax-automatically '(save mode-enabled))
             (eldoc-mode t)
             (company-mode-on)))
 
@@ -287,13 +290,12 @@
 ;; --- ggtags -----------------------------------------------
 
 ;; --- simplenote -----------------------------------------------
-;(require 'simplenote)
-;(setq simplenote-email "dai1975@gmail.com")
-;(simplenote-setup)
+(require 'simplenote)
+(setq simplenote-email "dai1975@gmail.com")
+(simplenote-setup)
 
-(require 'simplenote2)
-(setq simplenote2-email "dai1975@gmail.com")
-(simplenote2-setup)
+;(require 'simplenote2)
+;(setq simplenote2-email "dai1975@gmail.com")
+;(simplenote2-setup)
 
-
-
+(load "my-company.el")
