@@ -1,4 +1,4 @@
-TARGETS=emacs stumpwm screen zsh xwin
+TARGETS=emacs stumpwm screen zsh xwin tmux
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
@@ -38,6 +38,11 @@ screen:
 	@sed -e $(SED_E) .screenrc > $(HOME)/.screenrc
 	@touch $(HOME)/.screenrc-local
 	@echo update $(HOME)/.screenrc
+
+tmux:
+	@sed -e $(SED_E) tmpl/tmux.conf > $(HOME)/.tmux.conf
+	@touch $(HOME)/.tmux.local.conf
+	@echo update $(HOME)/.tmux.conf
 
 zsh:
 	@sed -e $(SED_E) .zshrc > $(HOME)/.zshrc
