@@ -22,13 +22,13 @@ if [ -n "$DESKTOP_SESSION" ]; then
   export SSH_AUTH_SOCK
 fi
 
-# pyenv
-#export PYENV_ROOT="/usr/local/pyenv"
-#export PATH="${PYENV_ROOT}/shims:${PYENV_ROOT}/bin:${PATH}"
-#eval "$(pyenv init -)"
-
 export PATH=$HOME/.anyenv/bin:$PATH
 eval "$(anyenv init -)"
+
+if [ "x$TERM" = "xemacs" ];then
+  TERM=dumb
+  export TERM
+fi
 
 
 # -- copy from @sirrow --------------------------------------------------------
