@@ -1,4 +1,4 @@
-TARGETS=emacs stumpwm screen zsh xwin tmux
+TARGETS=emacs stumpwm zsh tmux xdefaults xsession image
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
@@ -14,9 +14,13 @@ emacs:
 	@sed -e $(SED_E) .emacs > $(HOME)/.emacs
 	@echo update $(HOME)/.emacs
 
-xwin:
+xdefaults:
 	@sed -e $(SED_E) .Xdefaults > $(HOME)/.Xdefaults
 	@echo update $(HOME)/.Xdefaults
+
+xsession:
+	@sed -e $(SED_E) .xsession > $(HOME)/.xsession
+	@echo update $(HOME)/.xsession
 
 stumpwm:
 	@sed -e $(SED_E) .stumpwmrc > $(HOME)/.stumpwmrc
@@ -47,5 +51,8 @@ tmux:
 zsh:
 	@sed -e $(SED_E) .zshrc > $(HOME)/.zshrc
 	@echo update $(HOME)/.zshrc
+
+image:
+	mkdir $(HOME)/background-images
 
 .PHONY: all install clean emacs fluxbox global screen zsh
