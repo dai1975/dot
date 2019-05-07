@@ -1,14 +1,14 @@
 (in-package :stumpwm)
 
 ;(set-prefix-key (kbd "C-q"))
-(setf *mouse-focus-policy* :click)
+;(setf *mouse-focus-policy* :click)
 
 ;; Define the background window
-(defvar *background-image-path* "sHOMEDIR/background-images/")
-(defun select-random-background-image ()
-  "Select a random image"
-  (let ((file-list (directory (concatenate 'string *background-image-path* "*.jpg")))
-        (*random-state* (make-random-state t)))
-    (namestring (nth (random (length file-list)) file-list))))
+;(defvar *background-image-path* "sHOMEDIR/background-images/")
+;(defun select-random-background-image ()
+;  "Select a random image"
+;  (let ((file-list (directory (concatenate 'string *background-image-path* "*.jpg")))
+;        (*random-state* (make-random-state t)))
+;    (namestring (nth (random (length file-list)) file-list))))
 
-(run-shell-command (concatenate 'string "fbsetbg " (select-random-background-image)))
+;(run-shell-command (concatenate 'string "fbsetbg " (select-random-background-image)))
