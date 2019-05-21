@@ -146,6 +146,12 @@
              )
 
 ;; --- programming -----------------------------------------------
+(use-package lsp-mode :ensure t :commands lsp)
+(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+(use-package company-lsp :ensure t :commands company-lsp)
+
+(use-package yasnippet :ensure t)
+
 (use-package quickrun ;:ensure t
              :init
              (global-set-key (kbd "C-c C-q") 'quickrun)
@@ -225,17 +231,18 @@
                          ))
              )
 
-
 (use-package rust-mode :ensure t
              :mode
-             ("\\.rs\\'" . c-mode)
+             ("\\.rs\\'" . rust-mode)
              :init
              (add-hook 'rust-mode-hook
                        (lambda ()
                          (cargo-minor-mode)
                          (flycheck-mode)
+                         (lsp)
                          ))
              )
+(use-package cargo :ensure t :commands (cargo-minor-mode))
 
 
 (use-package tide :ensure t)
