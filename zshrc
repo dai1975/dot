@@ -74,8 +74,8 @@ HISTSIZE=10000            # メモリに保存されるヒストリの件数
 SAVEHIST=10000            # 保存されるヒストリの件数
 setopt bang_hist          # !を使ったヒストリ展開を行う(d)
 setopt extended_history   # ヒストリに実行時間も保存する
-setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
-setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
+#setopt hist_ignore_dups   # 直前と同じコマンドはヒストリに追加しない
+#setopt share_history      # 他のシェルのヒストリをリアルタイムで共有する
 setopt hist_reduce_blanks # 余分なスペースを削除してヒストリに保存する
 
 # マッチしたコマンドのヒストリを表示できるようにする
@@ -162,4 +162,7 @@ precmd() {
 ### Aliases ###
 alias emacs='emacs -nw'
 alias ls='ls --color'
+
+alias loginaws='`aws ecr get-login --no-include-email`'
+
 

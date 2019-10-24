@@ -13,8 +13,8 @@
 (setq isearch-case-fold-search t)
 
 (setq-default indent-tabs-mode nil)
-(setq tab-width 5)
-(setq c-basic-offset 3)
+(setq-default tab-width 5)
+(setq-default c-basic-offset 3)
 
 ;; --- package -----------------------------------------------
 (require 'package)
@@ -40,6 +40,7 @@
                '("SConscript" . "python.py")
                '("SConstruct" . "python.py")
                '("daikfile" . "python.py")
+               '("\\.editorconfig" . "editorconfig.ini")
                '("\\.h" . "cpp.h")
                '("\\.cpp" . "cpp.cpp")
 ;               '("\\.rb" . "foo.rb")
@@ -49,8 +50,20 @@
 (add-hook 'find-file-hooks 'auto-insert)
 
 ;; --- face -----------------------------------------------
-(set-face-foreground 'font-lock-comment-face "#f69933")
-(set-face-foreground 'font-lock-comment-delimiter-face "#f69933")
+;(set-face-foreground 'font-lock-comment-face "#f69933")
+;(set-face-foreground 'font-lock-comment-delimiter-face "#f69933")
+
+(use-package highlight-indent-guides :ensure t
+  :diminish
+  :hook
+  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  :custom
+  ;(highlight-indent-guides-auto-enabled t)
+  (highlight-indent-guides-auto-enabled nil)
+  (highlight-indent-guides-responsive t)
+  (highlight-indent-guides-method 'character)
+)
+
 
 ;; --- w3m -----------------------------------------------
 ; (setq w3m-key-binding 'info)
@@ -95,8 +108,12 @@
 
 ;; --- edit ---------------------------------------------
 (use-package editorconfig :ensure t
-             :init
+             :config
              (editorconfig-mode 1)
+             (add-hook 'editorconfig-hack-properties-functions
+                       '(lambda (props)
+                          (when (derived-mode-p 'makefile-mode)
+                            (puthash 'indent_style \"tab\" props))))
              )
 
 (use-package skk ;:ensure t
@@ -130,8 +147,23 @@
                          ))
              )
 (use-package markdown-mode :ensure t
+             :commands
+             (markdown-mode gfm-mode)
              :mode
-             ("\\.md\\'" . markdown-mode)
+             ("\\.md\\'" . gfm-mode)
+             :config
+             (setq markdown-command "github-markup"
+                   markdown-command-needs-filename t
+                   markdown-content-type "application/xhtml+xml"
+                   markdown-css-paths '("https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css")
+                   markdown-xhtml-header-content "
+<style>
+body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); });
+</script>
+" )
              )
 (use-package org :ensure t
              :mode
@@ -140,13 +172,40 @@
 
 ;; --- simplenote -----------------------------------------------
 (use-package simplenote2 :ensure t
-             :config
-             (setq simplenote2-email "dai1975@gmail.com")
-             (simplenote2-setup)
-             )
+  :commands
+  (simplenote2-list-mode markdown-mode gfm-mode)
+  :init
+  (add-hook 'simplenote2-note-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c t") 'simplenote2-add-tag)
+              (local-set-key (kbd "C-c C-c l") 'simplenote2--create-note-locally)
+              (local-set-key (kbd "C-c c") 'simplenote2-push-buffer)
+              (local-set-key (kbd "C-c d") 'simplenote2-pull-buffer)))
+  (add-hook 'simplenote2-create-note-hook
+            (lambda ()
+              (simplenote2-set-markdown)
+              ))
+  (simplenote2-setup)
+  :config
+  (setq simplenote2-email "dai1975@gmail.com"
+        simplenote2-markdown-notes-mode 'gfm-mode
+        ;simplenote2-filter-note-tag-list '("fressets" "tech")
+        )
+  )
 
 ;; --- programming -----------------------------------------------
-(use-package lsp-mode :ensure t :commands lsp)
+(use-package lsp-mode :ensure t :commands lsp
+  :config
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection '("rls"))
+    :major-modes '(rust-mode)
+    :priority 0
+    :server-id 'myrls
+    :initialized-fn (lambda (workspace)
+                      (with-lsp-workspace workspace (lsp--set-configuration `(:rust (:clippy_preference "on")))))
+    :notification-handlers (lsp-ht ("window/progress" 'lsp-clients--rust-window-progress))))
+  )
 (use-package lsp-ui :ensure t :commands lsp-ui-mode)
 (use-package company-lsp :ensure t :commands company-lsp)
 
@@ -204,18 +263,42 @@
 ;                        ("C-q f" . gtags-find-file)
 ;                        ("C-q p" . gtags-pop-stack))
 ;             )
-             
+
+(use-package cc-mode
+  :defer t
+  :init
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (electric-indent-mode)
+              ;(when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                ;(gtags-mode 1)
+                ))
+)
+;  (use-package google-c-style
+;    :ensure t
+;    :init
+;    (add-hook 'c-mode-common-hook
+;              (lambda ()
+;                (google-set-c-style)
+;                (google-make-newline-indent)))
+;    :config
+;    (c-set-offset 'statement-case-open 0)
+                                        ;    )
+;  )
+
 (use-package c-mode ;:ensure t
              :mode
              ("\\.c\\'" . c-mode)
              :init
-             (add-hook 'c-mode-common-hook
+             (add-hook 'c-mode-hook
                        (lambda ()
-                         (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-                           ;(gtags-mode 1)
-                           )))
-)
-             
+                         (flycheck-mode)
+                         (c-set-style "ellemtel")
+                                        ;(c-set-style "linux")
+                         (editorconfig-apply)
+                         ))
+             )
+
 (use-package c++-mode ;:ensure t
              :mode (("\\.h\\'"   . c++-mode)
                     ("\\.cpp\\'" . c++-mode))
@@ -241,8 +324,20 @@
                          (flycheck-mode)
                          (lsp)
                          ))
+             :config
+             (setq rust-format-on-save t)
              )
 (use-package cargo :ensure t :commands (cargo-minor-mode))
+
+(use-package scala-mode :ensure t
+             :mode
+             ("\\.scala\\'" . scala-mode)
+             :init
+             (add-hook 'scala-mode-hook
+                       (lambda ()
+                         (flycheck-mode)
+                         ))
+             )
 
 
 (use-package tide :ensure t)
@@ -297,5 +392,11 @@
              )
 
 
+; --------------------------------------------------
+(use-package terraform-mode :ensure t
+             :mode
+             ("\\.tf\\'" . terraform-mode)
+             ("\\.terraformrc\$" . terraform-mode)
+             )
 ; --------------------------------------------------
 (load "my-company.el")
