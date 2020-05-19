@@ -13,7 +13,7 @@ if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/bin:$HOME/.cargo/bin
+PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin
 export PATH
 
 # keyring
