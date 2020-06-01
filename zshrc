@@ -13,7 +13,11 @@ if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-PATH=$PATH:/snap/bin:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin
+#PATH=$PATH:$HOME/.local/bin # systemd xdg usrdir path. The bash4.3 and/or ubuntu 16.04 may need to set because of bugs
+PATH=$PATH:$HOME/.cargo/bin # Rust
+PATH=$PATH:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin #golang
+PATH=$PATH:$HOME/.krew/bin #kubectl krew
+PATH=$PATH:$DOTDIR/bin:$HOME/bin #my setting
 export PATH
 
 # keyring

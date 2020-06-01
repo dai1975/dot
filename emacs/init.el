@@ -3,6 +3,7 @@
 
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
+(global-unset-key "\C-x\C-n") ; set-goal-column
 
 ; minibuffer
 (setq max-mini-window-height 1)
@@ -15,6 +16,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 5)
 (setq-default c-basic-offset 3)
+(setq-default line-move-visual nil)
 
 ;; --- package -----------------------------------------------
 (require 'package)
@@ -53,16 +55,16 @@
 ;(set-face-foreground 'font-lock-comment-face "#f69933")
 ;(set-face-foreground 'font-lock-comment-delimiter-face "#f69933")
 
-(use-package highlight-indent-guides :ensure t
-  :diminish
-  :hook
-  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  :custom
-  ;(highlight-indent-guides-auto-enabled t)
-  (highlight-indent-guides-auto-enabled nil)
-  (highlight-indent-guides-responsive t)
-  (highlight-indent-guides-method 'character)
-)
+;(use-package highlight-indent-guides :ensure t
+;  :diminish
+;  :hook
+;  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+;  :custom
+;  ;(highlight-indent-guides-auto-enabled t)
+;  (highlight-indent-guides-auto-enabled nil)
+;  (highlight-indent-guides-responsive t)
+;  (highlight-indent-guides-method 'character)
+;)
 
 
 ;; --- w3m -----------------------------------------------
@@ -113,7 +115,7 @@
              (add-hook 'editorconfig-hack-properties-functions
                        '(lambda (props)
                           (when (derived-mode-p 'makefile-mode)
-                            (puthash 'indent_style \"tab\" props))))
+                            (puthash 'indent_style "tab" props))))
              )
 
 (use-package skk ;:ensure t
@@ -126,6 +128,10 @@
 (use-package json-mode :ensure t
              :mode
              ("\\.json\\'" . json-mode)
+             )
+(use-package jsonnet-mode :ensure t
+             :mode
+             ("\\.jsonnet\\'" . jsonnet-mode)
              )
 (use-package toml-mode :ensure t
              :mode
