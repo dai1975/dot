@@ -22,6 +22,7 @@ PATH=$HOME/.anyenv/bin:$PATH #anyenv
 PATH=$DOTDIR/bin:$HOME/bin:$PATH #my setting
 #echo $PATH
 export PATH
+eval "$(anyenv init -)"
 
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then
@@ -29,8 +30,6 @@ if [ -n "$DESKTOP_SESSION" ]; then
   export SSH_AUTH_SOCK
 fi
 
-export PATH=$HOME/.anyenv/bin:$PATH
-eval "$(anyenv init -)"
 
 if [ "x$TERM" = "xemacs" ];then
   TERM=dumb
