@@ -168,6 +168,7 @@ precmd() {
 ### Aliases ###
 alias emacs='emacs -nw'
 alias ls='ls --color'
+alias k='kubectl'
 
 alias loginaws='`aws ecr get-login --no-include-email`'
 
