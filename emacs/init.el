@@ -108,6 +108,14 @@
 (autoload 'ansi-color-for-comint-mode-on "ansi-color" nil t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
+(setq explicit-shell-file-name "/bin/zsh")
+(add-hook 'shell-mode-hook
+          (lambda ()
+            (face-remap-set-base 'comint-highlight-prompt :inherit nil)))
+;            (set-face-attribute 'comint-highlight-prompt nil
+;                    :inherit nil)
+
+
 ;; --- edit ---------------------------------------------
 (use-package editorconfig :ensure t
              :config
