@@ -66,7 +66,6 @@
 ;  (highlight-indent-guides-method 'character)
 ;)
 
-
 ;; --- w3m -----------------------------------------------
 ; (setq w3m-key-binding 'info)
 (add-hook 'w3m-mode-hook
@@ -114,6 +113,16 @@
             (face-remap-set-base 'comint-highlight-prompt :inherit nil)))
 ;            (set-face-attribute 'comint-highlight-prompt nil
 ;                    :inherit nil)
+
+;; --- theme ---------------------------------------------
+(use-package color-theme-sanityinc-tomorrow :ensure t
+             :config
+             ;(color-theme-sanityinc-tomorrow-day)
+             ;(color-theme-sanityinc-tomorrow-night)
+             ;(color-theme-sanityinc-tomorrow-blue)
+             (color-theme-sanityinc-tomorrow-bright)
+             ;(color-theme-sanityinc-tomorrow-eighties)
+             )
 
 
 ;; --- edit ---------------------------------------------
