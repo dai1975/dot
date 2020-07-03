@@ -6,7 +6,9 @@ isemacs(){
     return 1
 }
 
-DOTDIR=`dirname $0`
+DOTDIR=$(dirname $0)
+test -f $HOME/.zshrc.local && source $HOME/zshrc.local
+
 #GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
 if [ ! -d $GOPATH ]; then
@@ -170,6 +172,21 @@ alias emacs='emacs -nw'
 alias ls='ls --color'
 alias k='kubectl'
 
-alias loginaws='`aws ecr get-login --no-include-email`'
+alias ecr-login='`aws ecr get-login --no-include-email`'
 
 
+function update-awscli-mfa() {
+  if [ "x$1" = "x" ]; then
+    echo "update-awscli-mfa <mfa code>"
+    return 1
+  fi
+
+  device=$(sed -n '/^\[mfa/,/^\[/p'  ~/.aws/credentials|awk '$1=="aws_mfa_device"{print $3}')
+  if [ "x$device" = "x" ]; then
+    echo "no mfa profile or aws_mfa_device found in ~/.aws/credentials"
+    return 2
+  fi
+
+  eval $(aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk '$1 == "\"AccessKeyId\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_ACCESS_KEY_ID="$2 } $1 == "\"SecretAccessKey\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_SECRET_ACCESS_KEY="$2 } $1 == "\"SessionToken\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_SESSION_TOKEN="$2 } ')
+  aws configure list
+}
