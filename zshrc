@@ -181,12 +181,13 @@ function update-awscli-mfa() {
     return 1
   fi
 
-  device=$(sed -n '/^\[mfa/,/^\[/p'  ~/.aws/credentials|awk '$1=="aws_mfa_device"{print $3}')
+  device=$(sed -n '/^\[mfa/,/^\[/p'  ~/.aws/credentials.tmpl|awk '$1=="aws_mfa_device"{print $3}')
   if [ "x$device" = "x" ]; then
-    echo "no mfa profile or aws_mfa_device found in ~/.aws/credentials"
+    echo "no mfa profile or aws_mfa_device found in ~/.aws/credentials.tmpl"
     return 2
   fi
 
-  eval $(aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk '$1 == "\"AccessKeyId\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_ACCESS_KEY_ID="$2 } $1 == "\"SecretAccessKey\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_SECRET_ACCESS_KEY="$2 } $1 == "\"SessionToken\":" { gsub(/\"/,""); gsub(/,/,""); print "export AWS_SESSION_TOKEN="$2 } ')
+  cp ~/.aws/credentials.tmpl ~/.aws/credentials
+  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
   aws configure list
 }
