@@ -6,15 +6,25 @@ isemacs(){
     return 1
 }
 
-DOTDIR=`dirname $0`
+DOTDIR=$(dirname $0)
+test -f $HOME/.zshrc.local && source $HOME/zshrc.local
+
 #GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
 if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-PATH=$PATH:/snap/bin:$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin
+#PATH=$PATH:$HOME/.local/bin # systemd xdg usrdir path. The bash4.3 and/or ubuntu 16.04 may need to set because of bugs
+PATH=$PATH:/snap/bin #snap
+PATH=$HOME/.cargo/bin:$PATH # Rust
+PATH=$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin:$PATH #golang
+PATH=$HOME/.krew/bin:$PATH #kubectl krew
+PATH=$HOME/.anyenv/bin:$PATH #anyenv
+PATH=$DOTDIR/bin:$HOME/bin:$PATH #my setting
+#echo $PATH
 export PATH
+eval "$(anyenv init -)"
 
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then
@@ -22,8 +32,6 @@ if [ -n "$DESKTOP_SESSION" ]; then
   export SSH_AUTH_SOCK
 fi
 
-export PATH=$HOME/.anyenv/bin:$PATH
-eval "$(anyenv init -)"
 
 if [ "x$TERM" = "xemacs" ];then
   TERM=dumb
@@ -162,7 +170,24 @@ precmd() {
 ### Aliases ###
 alias emacs='emacs -nw'
 alias ls='ls --color'
+alias k='kubectl'
 
-alias loginaws='`aws ecr get-login --no-include-email`'
+alias ecr-login='`aws ecr get-login --no-include-email`'
 
 
+function update-awscli-mfa() {
+  if [ "x$1" = "x" ]; then
+    echo "update-awscli-mfa <mfa code>"
+    return 1
+  fi
+
+  device=$(sed -n '/^\[mfa/,/^\[/p'  ~/.aws/credentials.tmpl|awk '$1=="aws_mfa_device"{print $3}')
+  if [ "x$device" = "x" ]; then
+    echo "no mfa profile or aws_mfa_device found in ~/.aws/credentials.tmpl"
+    return 2
+  fi
+
+  cp ~/.aws/credentials.tmpl ~/.aws/credentials
+  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
+  aws configure list
+}
