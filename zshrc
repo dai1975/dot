@@ -16,14 +16,13 @@ if [ ! -d $GOPATH ]; then
 fi
 
 #PATH=$PATH:$HOME/.local/bin # systemd xdg usrdir path. The bash4.3 and/or ubuntu 16.04 may need to set because of bugs
-PATH=$PATH:/snap/bin #snap
-PATH=$HOME/.cargo/bin:$PATH # Rust
-PATH=$GOROOT/bin:$GOPATH/bin:$DOTDIR/bin:$HOME/.local/bin:$HOME/bin:$HOME/.cargo/bin:$PATH #golang
-PATH=$HOME/.krew/bin:$PATH #kubectl krew
-PATH=$HOME/.anyenv/bin:$PATH #anyenv
-PATH=$DOTDIR/bin:$HOME/bin:$PATH #my setting
-#echo $PATH
-export PATH
+PATH0=$HOME/.cargo/bin
+PATH0=$PATH0:$GOPATH/bin
+PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
+PATH0=$PATH0:$HOME/.anyenv/bin #anyenv
+PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
+PATH1=/snap/bin #snap
+export PATH=$PATH0:$PATH:$PATH1
 eval "$(anyenv init -)"
 
 # keyring
@@ -188,6 +187,6 @@ function update-awscli-mfa() {
   fi
 
   cp ~/.aws/credentials.tmpl ~/.aws/credentials
-  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/\"/,""); gsub(/,/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
+  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/[",]/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/[",]/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/[",]/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
   aws configure list
 }
