@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
   :init
   (add-hook 'c-mode-common-hook
             (lambda ()
-              (electric-indent-mode)
+              ;(electric-indent-mode)
               ;(when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
                 ;(gtags-mode 1)
                 ))
