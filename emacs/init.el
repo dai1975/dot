@@ -434,6 +434,20 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
                          ))
              )
 
+(use-package go-mode :ensure t
+             :mode
+             ("\\.go\\'" . go-mode)
+             :init
+             (add-hook 'go-mode-hook
+                       (lambda ()
+                         (setq tab-width 3) ; golang recommends tab
+                         ;(flycheck-mode)
+                         ))
+             :config
+             (setq gofmt-command "goimports")
+             (add-hook 'before-save-hook 'gofmt-before-save)
+             )
+
 
 (use-package web-mode :ensure t
              :mode
