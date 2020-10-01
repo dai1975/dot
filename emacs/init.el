@@ -13,10 +13,12 @@
 (setq case-fold-search t)
 (setq isearch-case-fold-search t)
 
+; common editor settings
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 5)
 (setq-default c-basic-offset 3)
 (setq-default line-move-visual nil)
+
 
 ;; --- package -----------------------------------------------
 (require 'package)
@@ -64,7 +66,60 @@
 ;  (highlight-indent-guides-auto-enabled nil)
 ;  (highlight-indent-guides-responsive t)
 ;  (highlight-indent-guides-method 'character)
-;)
+                                        ;)
+
+(require 'whitespace)
+(global-whitespace-mode 1)
+(setq whiltespace-style
+      '(
+        face
+        newline
+        newline-mark
+        spaces
+;        space-mark
+        tabs
+        tab-mark
+        trailing
+        empty
+        ))
+
+(setq whitespace-display-mappings
+      '(
+        (newline-mark ?\n [?\u21b2 ?\n])
+        ; normal space
+        (space-mark ?\u0020 [?\u0020])
+        ;(space-mark ?\u0020 [?\u2e31]) ; word separator middle dot
+
+        ; japanese zenkaku spacenormal space.
+        (space-mark ?\u3000 [?\u25a1])
+
+        ; wrong tab stop
+        ;(tab-mark ?\t [?\u00bb ?\t])
+        ))
+
+(setq whitespace-space-regexp "\\(\u3000+\\|\u0020+\\)")
+
+(set-face-foreground 'whitespace-newline "gray40")
+(set-face-background 'whitespace-newline 'nil)
+
+(set-face-foreground 'whitespace-space 'nil) ; "gray40") ;'nil)
+(set-face-background 'whitespace-space 'nil) ;"gray33")
+
+(set-face-background 'whitespace-empty nil) ;"gray33")
+
+(set-face-foreground 'whitespace-tab "DarkRed")
+(set-face-underline 'whitespace-tab t)
+(set-face-background 'whitespace-tab nil)
+
+(set-face-foreground 'whitespace-trailing nil) ;"gray33")
+(set-face-foreground 'whitespace-hspace nil) ;"gray33")
+
+(setq whiltespace-space-regexp "\\(\u3000+\\)")
+
+;
+;(setq whitespace-display-mappings '((tab-mark ?\t [?\xBB ?\t])))
+
+
 
 ;; --- w3m -----------------------------------------------
 ; (setq w3m-key-binding 'info)
