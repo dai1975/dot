@@ -81,7 +81,7 @@
         tab-mark
         trailing
         empty
-        ))
+        )) ;; モードで上書きされちゃう
 
 (setq whitespace-display-mappings
       '(
@@ -100,21 +100,29 @@
 (setq whitespace-space-regexp "\\(\u3000+\\|\u0020+\\)")
 
 (set-face-foreground 'whitespace-newline "gray40")
-(set-face-background 'whitespace-newline 'nil)
+(set-face-background 'whitespace-newline nil)
 
-(set-face-foreground 'whitespace-space 'nil) ; "gray40") ;'nil)
-(set-face-background 'whitespace-space 'nil) ;"gray33")
+(set-face-foreground 'whitespace-space nil)
+(set-face-background 'whitespace-space nil)
 
-(set-face-background 'whitespace-empty nil) ;"gray33")
+(set-face-background 'whitespace-empty nil)
 
 (set-face-foreground 'whitespace-tab "DarkRed")
 (set-face-underline 'whitespace-tab t)
 (set-face-background 'whitespace-tab nil)
 
-(set-face-foreground 'whitespace-trailing nil) ;"gray33")
-(set-face-foreground 'whitespace-hspace nil) ;"gray33")
+;whitespace-space-after-tab
+;whitespace-space-before-tab
 
-(setq whiltespace-space-regexp "\\(\u3000+\\)")
+(set-face-foreground 'whitespace-trailing nil)
+(set-face-foreground 'whitespace-hspace nil)
+
+(set-face-foreground 'whitespace-big-indent 	nil)
+(set-face-background 'whitespace-big-indent 	nil)
+
+(set-face-foreground 'whitespace-line 	nil)
+(set-face-background 'whitespace-line 	nil)
+
 
 ;
 ;(setq whitespace-display-mappings '((tab-mark ?\t [?\xBB ?\t])))
@@ -473,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
               '(web-mode-html-attr-value-face   ((t (:foreground "#D78181"))))
               '(web-mode-comment-face           ((t (:foreground "#587F35"))))
               '(web-mode-server-comment-face    ((t (:foreground "#587F35"))))
-              
+
               '(web-mode-css-at-rule-face       ((t (:foreground "#DFCF44"))))
               '(web-mode-comment-face           ((t (:foreground "#587F35"))))
               '(web-mode-css-selector-face      ((t (:foreground "#DFCF44"))))
