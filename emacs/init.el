@@ -178,6 +178,7 @@
 ;                    :inherit nil)
 
 ;; --- theme ---------------------------------------------
+(setq custom-safe-themes t)
 (use-package color-theme-sanityinc-tomorrow :ensure t
              :config
              ;(color-theme-sanityinc-tomorrow-day)
