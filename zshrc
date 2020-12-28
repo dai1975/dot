@@ -19,7 +19,14 @@ fi
 PATH0=$HOME/.cargo/bin
 PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
-PATH0=$PATH0:$HOME/.anyenv/bin #anyenv
+#PATH0=$PATH0:$HOME/.anyenv/bin #anyenv
+if [ -r $HOME/.asdf/asdf.sh ]; then
+  . $HOME/.asdf/asdf.sh
+else
+  echo "ERROR: asdf is not found: install asdf as:"
+  echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
+  echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
+fi 
 PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 PATH1=/snap/bin #snap
 export PATH=$PATH0:$PATH:$PATH1
