@@ -30,7 +30,7 @@ fi
 PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 PATH1=/snap/bin #snap
 export PATH=$PATH0:$PATH:$PATH1
-eval "$(anyenv init -)"
+#eval "$(anyenv init -)"
 
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then
