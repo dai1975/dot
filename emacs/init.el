@@ -19,6 +19,7 @@
 (setq-default c-basic-offset 3)
 (setq-default line-move-visual nil)
 
+(electric-indent-mode -1)
 
 ;; --- package -----------------------------------------------
 (require 'package)
@@ -85,7 +86,7 @@
 
 (setq whitespace-display-mappings
       '(
-        (newline-mark ?\n [?\u21b2 ?\n])
+        ;(newline-mark ?\n [?\u21b2 ?\n])
         ; normal space
         (space-mark ?\u0020 [?\u0020])
         ;(space-mark ?\u0020 [?\u2e31]) ; word separator middle dot
@@ -500,5 +501,59 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              ("\\.tf\\'" . terraform-mode)
              ("\\.terraformrc\$" . terraform-mode)
              )
+; --------------------------------------------------
+;; https://emacs.stackexchange.com/questions/31646/how-to-paste-with-indentより転載
+(defun yank-with-indent ()
+  (interactive)
+  (let ((indent
+         (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+    (message indent)
+    (yank)
+    (narrow-to-region (mark t) (point))
+    (pop-to-mark-command)
+    (replace-string "\n" (concat "\n" indent))
+    (widen)))
+
+;; バインド
+;(define-key org-mode-map (kbd "C-c C-y") 'yank-with-indent)
+(global-set-key (kbd "C-c C-y") 'yank-with-indent)
+
+;; https://emacs.stackexchange.com/questions/34966/copy-region-without-leading-indentationより転載
+(defun my-copy-region-unindented (pad beginning end)
+  "Copy the region, un-indented by the length of its minimum indent.
+
+If numeric prefix argument PAD is supplied, indent the resulting
+text by that amount."
+  (interactive "P\nr")
+  (let ((buf (current-buffer))
+        (itm indent-tabs-mode)
+        (tw tab-width)
+        (st (syntax-table))
+        (indent nil))
+    (with-temp-buffer
+      (setq indent-tabs-mode itm
+            tab-width tw)
+      (set-syntax-table st)
+      (insert-buffer-substring buf beginning end)
+      ;; Establish the minimum level of indentation.
+      (goto-char (point-min))
+      (while (and (re-search-forward "^[[:space:]\n]*" nil :noerror)
+                  (not (eobp)))
+        (let ((length (current-column)))
+          (when (or (not indent) (< length indent))
+            (setq indent length)))
+        (forward-line 1))
+      (if (not indent)
+          (error "Region is entirely whitespace")
+        ;; Un-indent the buffer contents by the length of the minimum
+        ;; indent level, and copy to the kill ring.
+        (when pad
+          (setq indent (- indent (prefix-numeric-value pad))))
+        (indent-rigidly (point-min) (point-max) (- indent))
+        (copy-region-as-kill (point-min) (point-max))))))
+
+;; バインド
+(define-key org-mode-map (kbd "C-c M-w") 'my-copy-region-unindented)
+
 ; --------------------------------------------------
 (load "my-company.el")
