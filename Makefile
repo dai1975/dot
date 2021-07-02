@@ -10,6 +10,16 @@ install: $(TARGETS)
 clean:
 	cd $(HOME)/dot && find . -name "*~" | xargs rm
 
+dot-config:
+	@cd dot-config; for f in $$(find . -type f -print); do \
+	  if [ -f $$HOME/.config/$$f ]; then \
+	    echo "skip $$f"; \
+	  else \
+	    mkdir -p $$HOME/.config/$$(dirname $$f); \
+	    cp -i $$f $$HOME/.config/$$(dirname $$f); \
+	  fi \
+	done
+
 emacs:
 	@sed -e $(SED_E) .emacs > $(HOME)/.emacs
 	@echo update $(HOME)/.emacs
@@ -55,4 +65,4 @@ zsh:
 image:
 	mkdir $(HOME)/background-images
 
-.PHONY: all install clean emacs fluxbox global screen zsh
+.PHONY: all install clean emacs fluxbox global screen zsh dot-config
