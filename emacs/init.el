@@ -465,6 +465,7 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              ("\\.js\\'" . web-mode)
              ("\\.tsx\\'" . web-mode)
              ("\\.jsx\\'" . web-mode)
+             ("\\.erb\\'" . web-mode)
              :init
              (add-hook 'web-mode-hook
                        (lambda ()
