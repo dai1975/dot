@@ -44,10 +44,9 @@
                '("\\.py" . "python.py")
                '("SConscript" . "python.py")
                '("SConstruct" . "python.py")
-               '("daikfile" . "python.py")
                '("\\.editorconfig" . "editorconfig.ini")
-               '("\\.h" . "cpp.h")
-               '("\\.cpp" . "cpp.cpp")
+               '("\\.h$" . "cpp.h")
+               '("\\.cpp$" . "cpp.cpp")
 ;               '("\\.rb" . "foo.rb")
 ;               '("[Mm]akefile" . "Makefile")
 ;               '("[Mm]akefile" . "Makefile")
@@ -456,6 +455,11 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              :config
              (setq gofmt-command "goimports")
              (add-hook 'before-save-hook 'gofmt-before-save)
+             )
+
+(use-package solidity-mode :ensure t
+             :mode
+             ("\\.sol\\'" . solidity-mode)
              )
 
 
