@@ -557,7 +557,7 @@ text by that amount."
         (copy-region-as-kill (point-min) (point-max))))))
 
 ;; バインド
-(define-key org-mode-map (kbd "C-c M-w") 'my-copy-region-unindented)
+;(define-key org-mode-map (kbd "C-c M-w") 'my-copy-region-unindented)
 
 ; --------------------------------------------------
 (load "my-company.el")

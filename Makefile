@@ -63,6 +63,6 @@ zsh:
 	@echo update $(HOME)/.zshrc
 
 image:
-	mkdir $(HOME)/background-images
+	test -d $(HOME)/background-images || mkdir $(HOME)/background-images
 
 .PHONY: all install clean emacs fluxbox global screen zsh dot-config
