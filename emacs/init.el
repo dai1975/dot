@@ -1,6 +1,8 @@
 ;;; init.el --- basic facilities
 ;;; Commentary:
 
+(add-to-list 'exec-path (expand-file-name "~/local/bin"))
+
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
 (global-unset-key "\C-x\C-n") ; set-goal-column
@@ -282,27 +284,32 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
   )
 
 ;; --- programming -----------------------------------------------
-(use-package lsp-mode :ensure t :commands lsp
-  :config
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection (lsp-stdio-connection '("rls"))
-    :major-modes '(rust-mode)
-    :priority 0
-    :server-id 'myrls
-    :initialized-fn (lambda (workspace)
-                      (with-lsp-workspace workspace (lsp--set-configuration `(:rust (:clippy_preference "on")))))
-    :notification-handlers (lsp-ht ("window/progress" 'lsp-clients--rust-window-progress))))
-  )
+;; (use-package lsp-mode :ensure t :commands lsp
+;;   :config
+;;   (lsp-register-client
+;;    (make-lsp-client
+;;     :new-connection (lsp-stdio-connection '("rls"))
+;;     :major-modes '(rust-mode)
+;;     :priority 0
+;;     :server-id 'myrls
+;;     :initialized-fn (lambda (workspace)
+;;                       (with-lsp-workspace workspace (lsp--set-configuration `(:rust (:clippy_preference "on")))))
+;;     :notification-handlers (lsp-ht ("window/progress" 'lsp-clients--rust-window-progress))))
+;;   )
+(use-package lsp-mode :ensure t
+  :init (yas-global-mode)
+  :hook (rust-mode . lsp)
+  :bind ("C-c h" . lsp-describe-thing-at-point)
+  :custom (lsp-rust-server 'rust-analyzer))
 (use-package lsp-ui :ensure t :commands lsp-ui-mode)
-(use-package company-lsp :ensure t :commands company-lsp)
+;(use-package company-lsp :ensure t :commands company-lsp)
 
 (use-package yasnippet :ensure t)
 
-(use-package quickrun ;:ensure t
-             :init
-             (global-set-key (kbd "C-c C-q") 'quickrun)
-             )
+;; (use-package quickrun ;:ensure t
+;;              :init
+;;              (global-set-key (kbd "C-c C-q") 'quickrun)
+;;              )
 
 (use-package flycheck :ensure t
              :config
@@ -416,6 +423,14 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              (setq rust-format-on-save t)
              )
 (use-package cargo :ensure t :commands (cargo-minor-mode))
+
+(require 'ansi-color)
+(defun endless/colorize-compilation ()
+  "colorize from compilation-filter-start to point"
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region
+     compilation-filter-start (point))))
+(add-hook 'compilation-filter-hook #'endless/colorize-compilation)
 
 (use-package scala-mode :ensure t
              :mode
