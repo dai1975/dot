@@ -44,7 +44,7 @@ if [ "x$TERM" = "xemacs" ];then
   export TERM
 fi
 
-
+set -o ignoreeof
 # -- copy from @sirrow --------------------------------------------------------
 # Created by newuser for 4.3.17
 
