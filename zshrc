@@ -26,7 +26,7 @@ else
   echo "ERROR: asdf is not found: install asdf as:"
   echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
   echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
-fi 
+fi
 PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 PATH1=/snap/bin #snap
 export PATH=$PATH0:$PATH:$PATH1
@@ -40,8 +40,10 @@ fi
 
 
 if [ "x$TERM" = "xemacs" ];then
-  TERM=dumb
-  export TERM
+  #TERM=dumb
+  #TERM=tmux-256color
+  #TERM=screen-256color
+  #export TERM
 fi
 
 set -o ignoreeof
