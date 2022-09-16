@@ -19,7 +19,7 @@ fi
 PATH0=$HOME/.cargo/bin
 PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
-#PATH0=$PATH0:$HOME/.anyenv/bin #anyenv
+PATH0=$PATH0:$HOME/.pulumi/bin
 if [ -r $HOME/.asdf/asdf.sh ]; then
   . $HOME/.asdf/asdf.sh
 else
