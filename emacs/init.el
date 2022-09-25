@@ -189,15 +189,29 @@
 ;;              (color-theme-sanityinc-tomorrow-bright)
 ;;              ;(color-theme-sanityinc-tomorrow-eighties)
 ;;              )
-(use-package iceberg-theme :ensure t
-              :config
-              (iceberg-theme-create-theme-file)
-              (load-theme 'solarized-iceberg-dark t)
-;;              ;(color-theme-sanityinc-tomorrow-night)
-;;              ;(color-theme-sanityinc-tomorrow-blue)
-;;              (color-theme-sanityinc-tomorrow-bright)
-;;              ;(color-theme-sanityinc-tomorrow-eighties)
-              )
+;; (use-package iceberg-theme :ensure t
+;;               :config
+;;               (iceberg-theme-create-theme-file)
+;;               (load-theme 'solarized-iceberg-dark t)
+;; ;;              ;(color-theme-sanityinc-tomorrow-night)
+;; ;;              ;(color-theme-sanityinc-tomorrow-blue)
+;; ;;              (color-theme-sanityinc-tomorrow-bright)
+;; ;;              ;(color-theme-sanityinc-tomorrow-eighties)
+;;               )
+
+(use-package emacs
+  :init
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend)
+        ;modus-themes-syntax 'faint
+        )
+  :config
+  ;; Load the theme of your choice:
+  ;;(load-theme 'modus-operandi)
+  (load-theme 'modus-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
 
 
 ;; --- edit ---------------------------------------------
