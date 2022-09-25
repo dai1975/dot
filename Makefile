@@ -1,8 +1,8 @@
-TARGETS=emacs stumpwm zsh tmux xdefaults xsession image
+TARGETS=emacs stumpwm zsh tmux xdefaults xsession image skk dot-config
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
-help: 
+help:
 	@echo "$(MAKE) install: install dot files."
 
 install: $(TARGETS)
@@ -64,5 +64,8 @@ zsh:
 
 image:
 	test -d $(HOME)/background-images || mkdir $(HOME)/background-images
+
+skk:
+	@cp .skk $(HOME)/.skk
 
 .PHONY: all install clean emacs fluxbox global screen zsh dot-config
