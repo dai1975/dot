@@ -39,12 +39,12 @@ if [ -n "$DESKTOP_SESSION" ]; then
 fi
 
 
-if [ "x$TERM" = "xemacs" ];then
+#if [ "x$TERM" = "xemacs" ]; then
   #TERM=dumb
   #TERM=tmux-256color
   #TERM=screen-256color
   #export TERM
-fi
+#fi
 
 set -o ignoreeof
 # -- copy from @sirrow --------------------------------------------------------
