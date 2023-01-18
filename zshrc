@@ -9,6 +9,11 @@ isemacs(){
 DOTDIR=$(dirname $0)
 test -f $HOME/.zshrc.local && source $HOME/zshrc.local
 
+export LC_ALL=en_US.UTF_8
+
+# make podman docker-compose runnable by user
+DOCKER_HOST=unix:$XDG_RUNTIME_DIR/podman/podman.sock; export DOCKER_HOST
+
 #GOROOT=/usr/local/go; export GOROOT
 GOPATH=$HOME/local/go; export GOPATH
 if [ ! -d $GOPATH ]; then
@@ -179,6 +184,7 @@ precmd() {
 alias emacs='emacs -nw'
 alias ls='ls --color'
 alias k='kubectl'
+
 
 alias ecr-login='`aws ecr get-login --no-include-email`'
 
