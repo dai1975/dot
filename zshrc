@@ -21,10 +21,8 @@ if [ ! -d $GOPATH ]; then
 fi
 
 #PATH=$PATH:$HOME/.local/bin # systemd xdg usrdir path. The bash4.3 and/or ubuntu 16.04 may need to set because of bugs
-PATH0=$HOME/.cargo/bin
-PATH0=$PATH0:$GOPATH/bin
-PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
-PATH0=$PATH0:$HOME/.pulumi/bin
+
+# at first load asdf
 if [ -r $HOME/.asdf/asdf.sh ]; then
   . $HOME/.asdf/asdf.sh
 else
@@ -32,6 +30,15 @@ else
   echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
   echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
 fi
+
+PATH0="$PATH0:${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
+export AQUA_GLOBAL_CONFIG=${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml
+
+PATH0=$HOME/.cargo/bin
+PATH0=$PATH0:$GOPATH/bin
+PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
+PATH0=$PATH0:$HOME/.pulumi/bin
+
 PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 PATH1=/snap/bin #snap
 export PATH=$PATH0:$PATH:$PATH1
