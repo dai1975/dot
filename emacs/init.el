@@ -228,7 +228,7 @@
              :bind (("C-j" . skk-kakutei))
              :config
              (setq default-input-method "japanese-skk")
-             (require 'skk-study)
+             ;(require 'skk-study)
              )
 
 (use-package json-mode :ensure t
