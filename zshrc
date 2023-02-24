@@ -34,7 +34,7 @@ fi
 PATH0="$PATH0:${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
 export AQUA_GLOBAL_CONFIG=${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml
 
-PATH0=$HOME/.cargo/bin
+PATH0=$PATH0:$HOME/.cargo/bin
 PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
 PATH0=$PATH0:$HOME/.pulumi/bin
