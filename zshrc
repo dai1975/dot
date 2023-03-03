@@ -7,7 +7,6 @@ isemacs(){
 }
 
 DOTDIR=$(dirname $0)
-test -f $HOME/.zshrc.local && source $HOME/zshrc.local
 
 export LC_ALL=en_US.UTF_8
 
@@ -212,3 +211,5 @@ function update-awscli-mfa() {
   aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/[",]/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/[",]/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/[",]/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
   aws configure list
 }
+
+test -f $HOME/.zshrc.local && source $HOME/zshrc.local
