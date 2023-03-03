@@ -212,4 +212,4 @@ function update-awscli-mfa() {
   aws configure list
 }
 
-test -f $HOME/.zshrc.local && source $HOME/zshrc.local
+test -f $HOME/.zshrc.local && source $HOME/.zshrc.local
