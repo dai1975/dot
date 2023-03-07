@@ -19,7 +19,7 @@ if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-#PATH=$PATH:$HOME/.local/bin # systemd xdg usrdir path. The bash4.3 and/or ubuntu 16.04 may need to set because of bugs
+#export PATH=$PATH0:$PATH1:$PATH:$PATH100
 
 # at first load asdf
 if [ -r $HOME/.asdf/asdf.sh ]; then
@@ -38,9 +38,11 @@ PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
 PATH0=$PATH0:$HOME/.pulumi/bin
 
-PATH0=$PATH0:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
-PATH1=/snap/bin #snap
-export PATH=$PATH0:$PATH:$PATH1
+PATH1=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
+
+PATH99=/snap/bin #snap
+
+export PATH=$PATH0:$PATH1:$PATH:$PATH99
 #eval "$(anyenv init -)"
 
 # keyring
