@@ -231,27 +231,31 @@
 ;;              ;(require 'skk-study)
 ;;              )
 
-; yaskkserv2. see ./bin/setup-yaskkserv2.sh
-(defun skk-open-server-decoding-utf-8 ()
-  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-  (unless (skk-server-live-p)
-    (setq skkserv-process (skk-open-server-1))
-    (when (skk-server-live-p)
-      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-	(set-process-coding-system skkserv-process 'utf-8 code))))
-  skkserv-process)
+;; yaskkserv2. see ./bin/setup-yaskkserv2.sh
+;(defun skk-open-server-decoding-utf-8 ()
+;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
+;  (unless (skk-server-live-p)
+;    (setq skkserv-process (skk-open-server-1))
+;    (when (skk-server-live-p)
+;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
+;	(set-process-coding-system skkserv-process 'utf-8 code))))
+;    skkserv-process)
 (use-package ddskk ;:ensure t
              :bind (("C-j" . skk-mode))
              :init
              (custom-set-variables
-              '(skk-server-host "127.0.0.1")
-              '(skk-server-portnum 1178) ;yaskkserv2
-              '(skk-server-prog (expand-file-name "~/.cargo/bin/yaskkserv2"))
-              '(skk-server-jisyo (expand-file-name "~/myskkdic"))
-              '(skk-server-inhibit-startup-server nil)
+              ; local
+	      '(skk-cdb-large-jisyo "/usr/share/skk/SKK-JISYO.L.cdb")
+              ; yaskkserv2
+              ;'(skk-jisyo-code 'utf-8)
+              ;'(skk-server-host "127.0.0.1")
+              ;'(skk-server-portnum 1178) ;yaskkserv2
+              ;'(skk-server-prog (expand-file-name "~/.cargo/bin/yaskkserv2"))
+              ;'(skk-server-jisyo (expand-file-name "~/myskkdic"))
+              ;'(skk-server-inhibit-startup-server nil)
               '(skk-share-private-jisyo t)
               )
-             (setq-default skk-kutouten-type 'en)
+             ;(setq-default skk-kutouten-type 'en) ;; 句読点
              (setq skk-mode-hook
                    '(lambda()
                       (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
