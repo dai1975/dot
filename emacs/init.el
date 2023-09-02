@@ -199,20 +199,20 @@
 ;; ;;              ;(color-theme-sanityinc-tomorrow-eighties)
 ;;               )
 
-(use-package emacs
-  :init
-  ;; Add all your customizations prior to loading the themes
-  (setq modus-themes-italic-constructs t
-        modus-themes-bold-constructs nil
-        modus-themes-region '(bg-only no-extend)
-        ;modus-themes-syntax 'faint
-        )
+(use-package modus-themes
+  ;init
   :config
   ;; Load the theme of your choice:
   ;;(load-theme 'modus-operandi)
-  (load-theme 'modus-vivendi)
+  (require-theme 'modus-themes)
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs nil
+        modus-themes-region '(bg-only no-extend)
+       ;modus-themes-syntax 'faint
+        )
+  ;(load-theme 'modus-operandi) //for white background
+  (load-theme 'modus-vivendi) //for black background
   :bind ("<f5>" . modus-themes-toggle))
-
 
 ;; --- edit ---------------------------------------------
 (use-package editorconfig :ensure t
@@ -318,9 +318,9 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              )
 
 ;; --- obsidian -------------------------------------------------
-(use-package obsidian :ensure t
-  :config
-  )
+;; (use-package obsidian :ensure t
+;;   :config
+;;   )
 
 ;; --- simplenote -----------------------------------------------
 (use-package simplenote2 :ensure t
