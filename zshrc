@@ -1,9 +1,16 @@
 # Created by newuser for 4.3.11
 
-# if isemacs; then ...
-isemacs(){
+is_emacs(){
     [[ $EMACS != "" ]] && return 0
     return 1
+}
+is_macos(){
+    test "$(uname)" == "Darwin"
+    return $?
+}
+is_wsl2(){
+     grep -e 'microsoft-standard-WSL2' <(uname -r) >/dev/null
+     return $?
 }
 
 DOTDIR=$(dirname $0)
@@ -19,7 +26,14 @@ if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-#export PATH=$PATH0:$PATH1:$PATH:$PATH100
+# rye
+if [ -r $HOME/.rye/env ]; then
+  . $HOME/.rye/env
+  alias python="rye run python"
+else
+  echo "ERROR: rye is not found: install rye as:"
+  echo "  $ curl -sSf https://rye-up.com/get | bash"
+fi
 
 # at first load asdf
 if [ -r $HOME/.asdf/asdf.sh ]; then
@@ -30,6 +44,10 @@ else
   echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
 fi
 
+# -- set path --------------------------
+# PATH0, PATH1 is prior to PATH(and asdf): PATH=$PATH0:$PATH1:$PATH:$PATH100
+# -- PATH0 -----------------------------
+
 PATH0="$PATH0:${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
 export AQUA_GLOBAL_CONFIG=${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml
 
@@ -38,12 +56,17 @@ PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
 PATH0=$PATH0:$HOME/.pulumi/bin
 
+# -- PATH1 -----------------------------
 PATH1=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 
+# -- PATH99 -----------------------------
 PATH99=/snap/bin #snap
 
+# -- PATH -----------------------------
 export PATH=$PATH0:$PATH1:$PATH:$PATH99
 #eval "$(anyenv init -)"
+
+# -- end of PATH -----------------------------
 
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then
@@ -210,8 +233,13 @@ function update-awscli-mfa() {
   fi
 
   cp ~/.aws/credentials.tmpl ~/.aws/credentials
-  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/[",]/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/[",]/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/[",]/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
+  aws sts get-session-token --profile mfa --serial-number $device --token-code $1 | awk 'BEGIN { print "[default]" } $1 == "\"AccessKeyId\":" { gsub(/[\",]/,""); print "aws_access_key_id = "$2 } $1 == "\"SecretAccessKey\":" { gsub(/[",]/,""); print "aws_secret_access_key = "$2 } $1 == "\"SessionToken\":" { gsub(/[",]/,""); print "aws_session_token = "$2 } ' >> ~/.aws/credentials
   aws configure list
 }
+
+## -- X Window -------------------------------------------------------------
+if [ is_wsl2 ]; then
+   export DISPLAY=$(grep /etc/resolv.conf -e nameserver | awk '{print $2}'):0
+fi
 
 test -f $HOME/.zshrc.local && source $HOME/.zshrc.local
