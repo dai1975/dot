@@ -5,6 +5,8 @@
 
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
+(global-set-key (kbd "C--") 'undo)
+
 (global-unset-key "\C-x\C-n") ; set-goal-column
 
 ; minibuffer
