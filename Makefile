@@ -1,4 +1,4 @@
-TARGETS=emacs stumpwm zsh tmux xdefaults xsession image skk dot-config
+TARGETS=emacs stumpwm zsh tmux xdefaults xsession image skk dot-config gopls
 
 SED_E='s|sDOTDIR|$(HOME)/dot|g;s|sHOMEDIR|$(HOME)|g'
 
@@ -67,5 +67,10 @@ image:
 
 skk:
 	@cp .skk $(HOME)/.skk
+
+gopls:
+	go install golang.org/x/tools/gopls@latest
+	go install -v github.com/uudashr/gopkgs/cmd/gopkgs
+	go install golang.org/x/tools/cmd/goimports@latest
 
 .PHONY: all install clean emacs fluxbox global screen zsh dot-config
