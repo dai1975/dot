@@ -23,6 +23,10 @@
 (setq-default c-basic-offset 3)
 (setq-default line-move-visual nil)
 
+; multiline echo area
+(setq resize-mini-windows t)
+(setq max-mini-window-height 5)
+
 (electric-indent-mode -1)
 
 ;; --- package -----------------------------------------------
