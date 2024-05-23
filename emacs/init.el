@@ -26,6 +26,7 @@
 ; multiline echo area
 (setq resize-mini-windows t)
 (setq max-mini-window-height 5)
+(setq eldoc-echo-area-use-multiline-p 5)
 
 (electric-indent-mode -1)
 
