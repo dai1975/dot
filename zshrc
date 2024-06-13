@@ -31,7 +31,7 @@ if [ -r $HOME/.rye/env ]; then
   . $HOME/.rye/env
   alias python="rye run python"
 else
-  echo "ERROR: rye is not found: install rye as:"
+  echo "warn: rye is not found: install rye as:"
   echo "  $ curl -sSf https://rye-up.com/get | bash"
 fi
 
@@ -39,7 +39,7 @@ fi
 if [ -r $HOME/.asdf/asdf.sh ]; then
   . $HOME/.asdf/asdf.sh
 else
-  echo "ERROR: asdf is not found: install asdf as:"
+  echo "warn: asdf is not found: install asdf as:"
   echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
   echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
 fi
