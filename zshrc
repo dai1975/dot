@@ -27,13 +27,13 @@ if [ ! -d $GOPATH ]; then
 fi
 
 # rye
-if [ -r $HOME/.rye/env ]; then
-  . $HOME/.rye/env
-  alias python="rye run python"
-else
-  echo "warn: rye is not found: install rye as:"
-  echo "  $ curl -sSf https://rye-up.com/get | bash"
-fi
+#if [ -r $HOME/.rye/env ]; then
+#  . $HOME/.rye/env
+#  alias python="rye run python"
+#else
+#  echo "warn: rye is not found: install rye as:"
+#  echo "  $ curl -sSf https://rye-up.com/get | bash"
+#fi
 
 # at first load asdf
 if [ -r $HOME/.asdf/asdf.sh ]; then
