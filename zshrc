@@ -55,6 +55,7 @@ PATH0=$PATH0:$HOME/.cargo/bin
 PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
 PATH0=$PATH0:$HOME/.pulumi/bin
+asdf reshim python
 
 export ANDROID_HOME=$HOME/android-sdk
 export NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
