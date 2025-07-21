@@ -24,6 +24,11 @@
 (setq-default c-basic-offset 3)
 (setq-default line-move-visual nil)
 
+; multiline echo area
+(setq resize-mini-windows t)
+(setq max-mini-window-height 5)
+(setq eldoc-echo-area-use-multiline-p 5)
+
 (electric-indent-mode -1)
 
 ;; --- package -----------------------------------------------
@@ -349,38 +354,56 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
   )
 
 ;; --- programming -----------------------------------------------
-;; (use-package lsp-mode :ensure t :commands lsp
-;;   :config
-;;   (lsp-register-client
-;;    (make-lsp-client
-;;     :new-connection (lsp-stdio-connection '("rls"))
-;;     :major-modes '(rust-mode)
-;;     :priority 0
-;;     :server-id 'myrls
-;;     :initialized-fn (lambda (workspace)
-;;                       (with-lsp-workspace workspace (lsp--set-configuration `(:rust (:clippy_preference "on")))))
-;;     :notification-handlers (lsp-ht ("window/progress" 'lsp-clients--rust-window-progress))))
-;;   )
-
-;(use-package lsp-mode :ensure t
-; :init (yas-global-mode)
-; :hook (rust-mode . lsp)
-; :bind ("C-c h" . lsp-describe-thing-at-point)
-; :custom (lsp-rust-server 'rust-analyzer)
-;)
-;(use-package lsp-ui :ensure t :commands lsp-ui-mode)
-
 ; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 (use-package lsp-mode :ensure t
   :init
   (setq lsp-lens-enable nil
         lsp-headerline-breadcrumb-enable nil
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-show-code-actions nil
+;        lsp-ui-sideline-enable nil
+;        lsp-ui-sideline-show-code-actions nil
         )
+  ;(yas-global-mode)
+  (setq lsp-keymap-prefix "C-c l")
+  ;(setq lsp-completion-provider :none) ; https://naoking158.pages.dev/posts/corfu-with-lsp/
+  :hook
+  (rust-mode . lsp)
+  :bind
+  (("C-c h" . lsp-describe-thing-at-point)
+   ("M-p" . 'xref-pop-marker-stack)
+   ("M-." . 'xref-find-definitions)
+   ("M-/" . 'xref-find-references)
+   )
+  ;:custom (lsp-rust-server 'rust-analyzer)
+  :commands lsp
+)
+(use-package lsp-ui :ensure t
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-header t)
+  (setq lsp-ui-doc-include-signature t)
+  (setq lsp-ui-doc-max-width 150)
+  (setq lsp-ui-doc-max-height 30)
+  (setq lsp-ui-peek-enable t)
+  (setq lsp-ui-sideline-enable nil)
+  (setq lsp-ui-sideline-show-code-actions nil)
 )
 
 (use-package yasnippet :ensure t)
+
+;; (use-package corfu-terminal :ensure t
+;;   :custom
+;;   (corfu-auto t)
+;;   (corfu-auto-prefix 1)
+;;   (corfu-auto-delay 0)
+;;   (corfu-cycle t)
+;;   (corfu-preselect 'prompt)
+;;   (tab-always-indent t)
+;;   :init
+;;   (unless (display-graphic-p) (corfu-terminal-mode +1))
+;; )
+
+
 
 ;; (use-package quickrun ;:ensure t
 ;;              :init
@@ -391,6 +414,7 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              :config
              (setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
              )
+
 ;; (use-package company :ensure t
 ;;              :init
 ;;              (bind-keys :map mode-specific-map
@@ -404,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 ;;              :config
 ;;              (setq company-minimum-prefix-length 1)
 ;;              (setq company-selection-wrap-around t)
+;;              (setq tab-always-indent :complete)
 ;;              (set-face-attribute 'company-tooltip nil
 ;;                                  :foreground "black"
 ;;                                  :background "lightgray")
@@ -541,12 +566,15 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              :init
              (add-hook 'go-mode-hook
                        (lambda ()
-                         (setq tab-width 3) ; golang recommends tab
+                         ;(setq tab-width 3) ; golang recommends tab
                          ;(flycheck-mode)
+                         (lsp)
                          ))
+             (add-hook 'before-save-hook 'gofmt-before-save)
              :config
              (setq gofmt-command "goimports")
-             (add-hook 'before-save-hook 'gofmt-before-save)
+             (if (not (string-match "go" compile-command))
+                 "go build -v && go test -v && go vet")
              )
 
 (use-package solidity-mode :ensure t

@@ -39,7 +39,7 @@ fi
 if [ -r $HOME/.asdf/asdf.sh ]; then
   . $HOME/.asdf/asdf.sh
 else
-  echo "ERROR: asdf is not found: install asdf as:"
+  echo "warn: asdf is not found: install asdf as:"
   echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
   echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
 fi
