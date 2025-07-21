@@ -26,14 +26,14 @@ if [ ! -d $GOPATH ]; then
 	mkdir -p $GOPATH
 fi
 
-# rye
-if [ -r $HOME/.rye/env ]; then
-  . $HOME/.rye/env
-  alias python="rye run python"
-else
-  echo "ERROR: rye is not found: install rye as:"
-  echo "  $ curl -sSf https://rye-up.com/get | bash"
-fi
+## rye
+#if [ -r $HOME/.rye/env ]; then
+#  . $HOME/.rye/env
+#  alias python="rye run python"
+#else
+#  echo "ERROR: rye is not found: install rye as:"
+#  echo "  $ curl -sSf https://rye-up.com/get | bash"
+#fi
 
 # at first load asdf
 if [ -r $HOME/.asdf/asdf.sh ]; then
@@ -55,6 +55,11 @@ PATH0=$PATH0:$HOME/.cargo/bin
 PATH0=$PATH0:$GOPATH/bin
 PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
 PATH0=$PATH0:$HOME/.pulumi/bin
+
+export ANDROID_HOME=$HOME/android-sdk
+export NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
+export JAVA_HOME=/usr/local/android-studio/jbr
+PATH0=$PATH0:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin;
 
 # -- PATH1 -----------------------------
 PATH1=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
@@ -239,7 +244,7 @@ function update-awscli-mfa() {
 
 ## -- X Window -------------------------------------------------------------
 if [ is_wsl2 ]; then
-   export DISPLAY=$(grep /etc/resolv.conf -e nameserver | awk '{print $2}'):0
+   export DISPLAY=$(ip route | grep 'default via' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'):0
 fi
 
 test -f $HOME/.zshrc.local && source $HOME/.zshrc.local

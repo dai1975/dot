@@ -5,7 +5,8 @@
 
 (global-set-key "\C-h" 'delete-backward-char)
 (global-set-key "\M-g" 'goto-line)
-(global-set-key (kbd "C--") 'undo)
+(global-set-key (kbd "C--") 'undo) ; windows-terminal treats it as RET...
+(global-set-key (kbd "C-]") 'undo)
 
 (global-unset-key "\C-x\C-n") ; set-goal-column
 
@@ -360,13 +361,24 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 ;;                       (with-lsp-workspace workspace (lsp--set-configuration `(:rust (:clippy_preference "on")))))
 ;;     :notification-handlers (lsp-ht ("window/progress" 'lsp-clients--rust-window-progress))))
 ;;   )
+
+;(use-package lsp-mode :ensure t
+; :init (yas-global-mode)
+; :hook (rust-mode . lsp)
+; :bind ("C-c h" . lsp-describe-thing-at-point)
+; :custom (lsp-rust-server 'rust-analyzer)
+;)
+;(use-package lsp-ui :ensure t :commands lsp-ui-mode)
+
+; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
 (use-package lsp-mode :ensure t
-  :init (yas-global-mode)
-  :hook (rust-mode . lsp)
-  :bind ("C-c h" . lsp-describe-thing-at-point)
-  :custom (lsp-rust-server 'rust-analyzer))
-(use-package lsp-ui :ensure t :commands lsp-ui-mode)
-;(use-package company-lsp :ensure t :commands company-lsp)
+  :init
+  (setq lsp-lens-enable nil
+        lsp-headerline-breadcrumb-enable nil
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-show-code-actions nil
+        )
+)
 
 (use-package yasnippet :ensure t)
 
@@ -379,39 +391,39 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              :config
              (setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
              )
-(use-package company :ensure t
-             :init
-             (bind-keys :map mode-specific-map
-                        ("M-n" . nil)
-                        ("M-p" . nil)
-                        ("C-n" . company-select-next)
-                        ("C-p" . company-select-previous)
-                        ("C-h" . nil)
-                        ("<tab>" . company-complete-common-or-cycle)
-                        ("M-d" . company-show-doc-buffer))
-             :config
-             (setq company-minimum-prefix-length 1)
-             (setq company-selection-wrap-around t)
-             (set-face-attribute 'company-tooltip nil
-                                 :foreground "black"
-                                 :background "lightgray")
-             (set-face-attribute 'company-preview-common nil
-                                 :foreground "dark gray"
-                                 :background "black"
-                                 :underline t)
-             (set-face-attribute 'company-tooltip-selection nil
-                                 :background "steelblue"
-                                 :foreground "white")
-             (set-face-attribute 'company-tooltip-common nil
-                                 :foreground "black"
-                                 :underline t)
-             (set-face-attribute 'company-tooltip-common-selection nil
-                                 :foreground "white"
-                                 :background "steelblue"
-                                 :underline t)
-             (set-face-attribute 'company-tooltip-annotation nil
-                                 :foreground "red")
-             )
+;; (use-package company :ensure t
+;;              :init
+;;              (bind-keys :map mode-specific-map
+;;                         ("M-n" . nil)
+;;                         ("M-p" . nil)
+;;                         ("C-n" . company-select-next)
+;;                         ("C-p" . company-select-previous)
+;;                         ("C-h" . nil)
+;;                         ("<tab>" . company-complete-common-or-cycle)
+;;                         ("M-d" . company-show-doc-buffer))
+;;              :config
+;;              (setq company-minimum-prefix-length 1)
+;;              (setq company-selection-wrap-around t)
+;;              (set-face-attribute 'company-tooltip nil
+;;                                  :foreground "black"
+;;                                  :background "lightgray")
+;;              (set-face-attribute 'company-preview-common nil
+;;                                  :foreground "dark gray"
+;;                                  :background "black"
+;;                                  :underline t)
+;;              (set-face-attribute 'company-tooltip-selection nil
+;;                                  :background "steelblue"
+;;                                  :foreground "white")
+;;              (set-face-attribute 'company-tooltip-common nil
+;;                                  :foreground "black"
+;;                                  :underline t)
+;;              (set-face-attribute 'company-tooltip-common-selection nil
+;;                                  :foreground "white"
+;;                                  :background "steelblue"
+;;                                  :underline t)
+;;              (set-face-attribute 'company-tooltip-annotation nil
+;;                                  :foreground "red")
+;;              )
 
 ;(use-package gtags-mode :ensure t
 ;             :init
@@ -640,7 +652,7 @@ text by that amount."
 ;(define-key org-mode-map (kbd "C-c M-w") 'my-copy-region-unindented)
 
 ; --------------------------------------------------
-(load "my-company.el")
+;(load "my-company.el")
 
 ; -- google-translator ------------------------------------------------
 (use-package google-translate :ensure t
