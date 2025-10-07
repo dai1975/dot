@@ -1,0 +1,33 @@
+
+get_os() {
+  if [ "$(uname)" == 'Darwin' ]; then
+    echo 'Mac'
+  elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+    echo 'Linux'
+  elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW32_NT' ]; then
+    echo 'Cygwin'
+  elif [ "$(expr substr $(uname -s) 1 10)" == 'MINGW64_NT' ]; then
+    echo 'Cygwin'
+  else
+    echo "Your platform ($(uname -a)) is not supported."
+    exit 1
+  fi
+}
+
+get_vscode_dir() {
+  os=$(get_os)
+  case $os in
+    Linux) 
+      echo "$HOME/Library/Application Support/Code/User"
+      ;;
+    Cygwin) 
+      echo "$HOME/AppData/Roaming/Code/User"
+      ;;
+    Mac) 
+      echo "$HOME/Library/Application Support/Code/User"
+      ;;
+    *)
+      exit 1 ;;
+  esac
+}
+

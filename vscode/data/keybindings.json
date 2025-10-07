@@ -1,0 +1,238 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+x tab",
+        "command": "workbench.action.showCommands",
+        "when": ""
+    },
+    {
+        "key": "ctrl+-",
+        "command": "undo",
+        "when": ""
+    },
+    {
+        "key": "ctrl+,",
+        "command": "editor.action.showHover",
+        "when": ""
+    },
+    // tab (editor) 移動 (Ctrl-q ...)
+    {
+        "key": "ctrl+q n",
+        "command": "workbench.action.nextEditorInGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q p",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q tab",
+        "command": "workbench.action.quickOpenLeastRecentlyUsedEditorInGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q o",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": ""
+    },
+    // editor group 内でのウィンドウ操作(ctrl+x shift+...)
+    {
+        "key": "ctrl+x shift+2",
+        "command": "workbench.action.splitEditorInGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x shift+0", // editor の分割を閉じる
+        "command": "workbench.action.joinEditorInGroup",
+        "when": ""
+    },
+
+    // editor group 操作。(Ctrl-x ...)
+    // AwecomeEmacs Ctrl+x o "View: Navigate Editor Groups"
+    {
+        "key": "ctrl+x n",
+        "command": "workbench.action.focusNextGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x p",
+        "command": "workbench.action.focusPreviousGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x 0", // editor group を統合
+        "command": "workbench.action.joinTwoGroups",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x 2", // editor group を横に2分割
+        "command": "workbench.action.splitEditorRight",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x shift+Left", // shift無しは awesome emacs が使ってるので
+        "command": "workbench.action.moveEditorToLeftGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x shift+Right",
+        "command": "workbench.action.moveEditorToRightGroup",
+        "when": ""
+    },
+
+    // パネル移動。(ctrl+q shift+...)
+    {
+        "key": "ctrl+q shift+e", //エディタ
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q shift+t", // ターミナル(エディタ内じゃない方)
+        "command": "workbench.action.terminal.focus",
+        "when": ""
+    },
+    {
+        "key": "ctrl+x shift+t", //ターミナルパネルの開閉
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q shift+s", // サイドバー
+        "command": "workbench.action.focusSideBar",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q shift+f", // ファイルエクスプローラー
+        "command": "workbench.files.action.focusFilesExplorer",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q shift+o", // アウトライン
+        "command": "outline.focus",
+        "when": ""
+    },
+    {
+        "key": "ctrl+q shift+c", // copilot chat
+        "command": "workbench.panel.chat.view.copilot.focus",
+        "when": ""
+    },
+
+    // サイドバー操作を emacs 風に。
+    {
+        "key": "ctrl+n",
+        "command": "list.focusDown",
+        "when": "sideBarFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "list.focusUp",
+        "when": "sideBarFocus"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "list.expand",
+        "when": "sideBarFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "list.collapse",
+        "when": "sideBarFocus"
+    },
+
+    // ターミナル内で emacs 風に。
+    {
+        // teminal.allowChord=true でこうすると(コマンドは何でもよい) ctrl+o がシェルに行く。
+        // コマンドにマイナス付けるとそう動作すると説明あるけど、できなかった。謎。
+        "key": "alt+o t",
+        "command": "",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "cursorUp",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "cursorDown",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+f",
+        "command": "cursorRight",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+b",
+        "command": "cursorLeft",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+a",
+        "command": "cursorHome",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "cursorEnd",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+d",
+        "command": "deleteRight",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "deleteLeft",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+k",
+        "command": "deleteAllRight",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+m",
+        "command": "type",
+        "args": {
+            "text": "\n"
+        },
+        "when": "terminalFocus",
+    },
+    {
+        "key": "alt+p",
+        "command": "emacs-mcx.previousLine",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "-emacs-mcx.previousLine",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "alt+n",
+        "command": "emacs-mcx.nextLine",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "-emacs-mcx.nextLine",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "down",
+        "command": "-emacs-mcx.nextLine",
+        "when": "terminalFocus"
+    },
+    // vscode のデフォルトを無効化
+    {
+        "key": "ctrl+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "-workbench.action.files.newUntitledFile"
+    }
+]
