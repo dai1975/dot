@@ -58,7 +58,8 @@ PATH0=$PATH0:$HOME/.pulumi/bin
 
 export ANDROID_HOME=$HOME/android-sdk
 export NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
-export JAVA_HOME=/usr/local/android-studio/jbr
+#export JAVA_HOME=/usr/local/android-studio/jbr
+export JAVA_HOME=/usr
 PATH0=$PATH0:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin;
 
 # -- PATH1 -----------------------------
