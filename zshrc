@@ -2,6 +2,7 @@
 
 is_emacs(){
     [[ $EMACS != "" ]] && return 0
+    [[ $INSIDE_EMACS != "" ]] && return 0
     return 1
 }
 is_macos(){
@@ -35,44 +36,50 @@ fi
 #  echo "  $ curl -sSf https://rye-up.com/get | bash"
 #fi
 
-# at first load asdf
-if [ -r $HOME/.asdf/asdf.sh ]; then
-  . $HOME/.asdf/asdf.sh
-else
-  echo "warn: asdf is not found: install asdf as:"
-  echo "  $ git clone https://github.com/asdf-vm/asdf.git ~/.asdf"
-  echo "  $ cd ~/.asdf; git checkout \"$\(git describe -abbrev=0 --tags\)\""
-fi
-
 # -- set path --------------------------
-# PATH0, PATH1 is prior to PATH(and asdf): PATH=$PATH0:$PATH1:$PATH:$PATH100
-# -- PATH0 -----------------------------
+# -- PATH1: tool specific path
 
-PATH0="$PATH0:${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin"
-export AQUA_GLOBAL_CONFIG=${XDG_CONFIG_HOME:-$HOME/.config}/aquaproj-aqua/aqua.yaml
-
-PATH0=$PATH0:$HOME/.cargo/bin
-PATH0=$PATH0:$GOPATH/bin
-PATH0=$PATH0:$HOME/.krew/bin #kubectl krew
-PATH0=$PATH0:$HOME/.pulumi/bin
+PATH1=$PATH1:$HOME/.cargo/bin
+PATH1=$PATH1:$GOPATH/bin
+PATH1=$PATH1:$HOME/.krew/bin #kubectl krew
+PATH1=$PATH1:$HOME/.pulumi/bin
+PATH1=$PATH1:$HOME/local/mutagen
 
 export ANDROID_HOME=$HOME/android-sdk
 export NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
 #export JAVA_HOME=/usr/local/android-studio/jbr
 export JAVA_HOME=/usr
-PATH0=$PATH0:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin;
+PATH1=$PATH1:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin;
 
-# -- PATH1 -----------------------------
-PATH1=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
+#asdf reshim python
 
-# -- PATH99 -----------------------------
-PATH99=/snap/bin #snap
+# -- PATH2: my local installs
+PATH2=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 
-# -- PATH -----------------------------
-export PATH=$PATH0:$PATH1:$PATH:$PATH99
-#eval "$(anyenv init -)"
+# -- PATH3: package installs
+PATH3=/snap/bin
+
+# -- PATH99: tailing path
+PATH99=
+
+# -- asdf
+## temporaray set PATH
+export PATH=$PATH1:$PATH2:$PATH3:$PATH:$PATH99
+
+if which asdf; then
+  export ASDF_DATA_DIR=$HOME/.asdf
+  PATH3=$ASDF_DATA_DIR/shims:$PATH3
+else
+  echo "warn: asdf is not found: install asdf from "
+  echo "  https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-arm64.tar.gz"
+fi
+
+# -- PATH: really set path
+export PATH=$PATH1:$PATH2:$PATH3:$PATH:$PATH99
 
 # -- end of PATH -----------------------------
+
+
 
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then

@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;; init.el --- basic facilities
 ;;; Commentary:
 
@@ -42,6 +43,8 @@
 (package-initialize)
 
 (unless package-archive-contents (package-refresh-contents))
+
+;; use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
@@ -137,8 +140,6 @@
 ;
 ;(setq whitespace-display-mappings '((tab-mark ?\t [?\xBB ?\t])))
 
-
-
 ;; --- w3m -----------------------------------------------
 ; (setq w3m-key-binding 'info)
 (add-hook 'w3m-mode-hook
@@ -151,6 +152,80 @@
              ))
 
 ;; --- shell/terminal -----------------------------------------------
+
+;; vterm
+; need cmake and libtool
+(use-package vterm :ensure t
+  :bind
+  (:map vterm-mode-map
+        ("C-h" . vterm-send-backspace) ; global-set-key hooks key if exceptions is not set
+        ("C-y" . 'vterm-send-C-y) ;; default vterm-mode-map map C-y as vterm-yank
+        ; this settings for C-k kills line includes right prompt....use C-c C-t
+        ;("C-y" . (lambda () (interactive)
+        ;           (vterm-send-string (current-kill 0))))
+        ;("C-k" . (lambda () (interactive)
+        ;           (kill-new (buffer-substring (point) (line-end-position)))
+        ;           (vterm-send-key "k" nil nil t)))
+        ("C-c C-e" . 'vterm-send-C-x-C-e)
+        )
+  (:map vterm-copy-mode-map
+     ("C-y" . 'vterm-yank)
+     )
+  :config ; vterm vars should set after package load
+  (setq vterm-max-scrollback 100000)
+  (setq vterm-keymap-exceptions '("<f1>" "<f2>" "C-c" "C-x" "C-u" "C-g" "C-l" "M-x" "M-o" "C-v" "M-v")) ; "C-y" "M-y"))
+  ;(vterm-buffer-name-string . "vterm: %s")
+)
+
+
+(defun my/vterm-edit-line-in-emacs ()
+  "バッファオブジェクトを確実に特定してウィンドウを閉じる。"
+  (interactive)
+  (let* ((vterm-buf (current-buffer))
+         (edit-buf-name (format "*vterm-edit: %s*" (buffer-name)))
+         (edit-buf (get-buffer-create edit-buf-name)))
+    (with-current-buffer edit-buf
+      (erase-buffer)
+      (text-mode)
+      ;; ターゲットのvtermバッファと、自分自身のバッファをバッファローカル変数に保存
+      (setq-local vterm--target-dest vterm-buf)
+      (setq-local vterm--self-buf edit-buf)
+      ;; 送信処理
+      (local-set-key (kbd "C-c C-c")
+                     (lambda ()
+                       (interactive)
+                       (let* ((self (current-buffer))
+                              (text (buffer-string))
+                              (dest vterm--target-dest)
+                              (win (get-buffer-window self)))
+                         (when win (delete-window win))
+                         (kill-buffer self)
+                         (with-current-buffer dest
+                           (unless (string-empty-p text)
+                             (vterm-insert (string-trim text)))
+                           (let ((vwin (get-buffer-window dest)))
+                             (when vwin (select-window vwin)))))))
+      ;; 中止処理
+      (local-set-key (kbd "C-c C-k") 
+                     (lambda () (interactive) 
+                       (let* ((self (current-buffer))
+                              (win (get-buffer-window self))
+                              (dest vterm--target-dest))
+                         (when win (delete-window win))
+                         (kill-buffer self)
+                         (let ((vwin (get-buffer-window dest)))
+                           (when vwin (select-window vwin)))))))
+    ;; ウィンドウを表示
+    (let ((win (display-buffer-in-side-window 
+                edit-buf `((side . bottom) (window-height . 5)))))
+      (select-window win))))
+
+;; vterm のキーマップに割り当て
+(with-eval-after-load 'vterm
+  (define-key vterm-mode-map (kbd "C-c C-e") #'my/vterm-edit-line-in-emacs))
+
+
+; --
 ;; http://sakito.jp/emacs/emacsshell.html
 (set-language-environment 'utf-8)
 (prefer-coding-system 'utf-8)
@@ -331,27 +406,27 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 ;;   )
 
 ;; --- simplenote -----------------------------------------------
-(use-package simplenote2 :ensure t
-  :commands
-  (simplenote2-list-mode markdown-mode gfm-mode)
-  :init
-  (add-hook 'simplenote2-note-mode-hook
-            (lambda ()
-              (local-set-key (kbd "C-c t") 'simplenote2-add-tag)
-              (local-set-key (kbd "C-c C-c l") 'simplenote2--create-note-locally)
-              (local-set-key (kbd "C-c c") 'simplenote2-push-buffer)
-              (local-set-key (kbd "C-c d") 'simplenote2-pull-buffer)))
-  (add-hook 'simplenote2-create-note-hook
-            (lambda ()
-              (simplenote2-set-markdown)
-              ))
-  (simplenote2-setup)
-  :config
-  (setq simplenote2-email "dai1975@gmail.com"
-        simplenote2-markdown-notes-mode 'gfm-mode
-        ;simplenote2-filter-note-tag-list '("fressets" "tech")
-        )
-  )
+;; (use-package simplenote2 :ensure t
+;;   :commands
+;;   (simplenote2-list-mode markdown-mode gfm-mode)
+;;   :init
+;;   (add-hook 'simplenote2-note-mode-hook
+;;             (lambda ()
+;;               (local-set-key (kbd "C-c t") 'simplenote2-add-tag)
+;;               (local-set-key (kbd "C-c C-c l") 'simplenote2--create-note-locally)
+;;               (local-set-key (kbd "C-c c") 'simplenote2-push-buffer)
+;;               (local-set-key (kbd "C-c d") 'simplenote2-pull-buffer)))
+;;   (add-hook 'simplenote2-create-note-hook
+;;             (lambda ()
+;;               (simplenote2-set-markdown)
+;;               ))
+;;   (simplenote2-setup)
+;;   :config
+;;   (setq simplenote2-email "dai1975@gmail.com"
+;;         simplenote2-markdown-notes-mode 'gfm-mode
+;;         ;simplenote2-filter-note-tag-list '("fressets" "tech")
+;;         )
+;;   )
 
 ;; --- programming -----------------------------------------------
 ; https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
@@ -618,13 +693,31 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
               )
              )
 
-
-; --------------------------------------------------
 (use-package terraform-mode :ensure t
              :mode
              ("\\.tf\\'" . terraform-mode)
              ("\\.terraformrc\$" . terraform-mode)
              )
+
+;; --- AI -----------------------------------------------
+;; --- github copilot -----------------------------------------------
+; straight.el requires ssh-agent...I've manually installed copilot.el
+;(add-to-list 'load-path (concat mydotdir "/emacs/copilot.el"))
+;(require 'copilot)
+
+;(add-hook 'prog-mode-hook 'copilot-mode)
+
+;; -- claude code
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
+  :config
+  (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
+)
+; when install fail with "empty package error message", test below
+; cd tmp; git clone https://github.com/manzaltu/claude-code-ide.el
+; (package-vc-install-from-checkout "/tmp/claude-code-ide.el")
+
 ; --------------------------------------------------
 ;; https://emacs.stackexchange.com/questions/31646/how-to-paste-with-indentより転載
 (defun yank-with-indent ()

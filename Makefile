@@ -70,7 +70,7 @@ skk:
 
 gopls:
 	go install golang.org/x/tools/gopls@latest
-	go install -v github.com/uudashr/gopkgs/cmd/gopkgs
+	go install -v github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest
 	go install golang.org/x/tools/cmd/goimports@latest
 
 .PHONY: all install clean emacs fluxbox global screen zsh dot-config
