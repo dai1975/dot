@@ -80,12 +80,22 @@ export PATH=$PATH1:$PATH2:$PATH3:$PATH:$PATH99
 # -- end of PATH -----------------------------
 
 
-
 # keyring
 if [ -n "$DESKTOP_SESSION" ]; then
   eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
   export SSH_AUTH_SOCK
 fi
+
+# keychain (gnome-keyring)
+# sudo mkdir /run/user/$(id -u)
+# sudo chown $(id -u):$(id -u) /run/user/$(id -u)
+# sudo chmod 700 /run/user/$(id -u)
+
+if [ -z "$DBUS_SESSION_BUS_ADDRESS" ]; then
+  eval $(dbus-launch --sh-syntax)
+fi
+eval $(echo '' | gnome-keyring-daemon --start --components=secrets)
+export SSH_AUTH_SOCK
 
 
 #if [ "x$TERM" = "xemacs" ]; then
