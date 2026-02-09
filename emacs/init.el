@@ -718,6 +718,12 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 ; cd tmp; git clone https://github.com/manzaltu/claude-code-ide.el
 ; (package-vc-install-from-checkout "/tmp/claude-code-ide.el")
 
+;; -- agent-shell
+(use-package agent-shell
+    :ensure t
+;    :ensure-system-package
+)
+
 ; --------------------------------------------------
 ;; https://emacs.stackexchange.com/questions/31646/how-to-paste-with-indentより転載
 (defun yank-with-indent ()
