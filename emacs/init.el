@@ -307,43 +307,16 @@
                             (puthash 'indent_style "tab" props))))
              )
 
-;; (use-package skk ;:ensure t
-;;              :bind (("C-j" . skk-kakutei))
-;;              :config
-;;              (setq default-input-method "japanese-skk")
-;;              ;(require 'skk-study)
-;;              )
-
-;; yaskkserv2. see ./bin/setup-yaskkserv2.sh
-;(defun skk-open-server-decoding-utf-8 ()
-;  "辞書サーバと接続する。サーバープロセスを返す。 decoding coding-system が euc ではなく utf8 となる。"
-;  (unless (skk-server-live-p)
-;    (setq skkserv-process (skk-open-server-1))
-;    (when (skk-server-live-p)
-;      (let ((code (cdr (assoc "euc" skk-coding-system-alist))))
-;	(set-process-coding-system skkserv-process 'utf-8 code))))
-;    skkserv-process)
 (use-package ddskk ;:ensure t
-             :bind (("C-j" . skk-mode))
+             ; note that C-j is mapped to eval-print-last-exp in lisp-interaction-mode such as *scratch*
+             ; C-j is remapped to skk after start skk-mode by M-x skk-mode
+             :bind ("C-x C-j" . skk-mode)
              :init
-             (custom-set-variables
-              ; local
-	      '(skk-cdb-large-jisyo "/usr/share/skk/SKK-JISYO.L.cdb")
-              ; yaskkserv2
-              ;'(skk-jisyo-code 'utf-8)
-              ;'(skk-server-host "127.0.0.1")
-              ;'(skk-server-portnum 1178) ;yaskkserv2
-              ;'(skk-server-prog (expand-file-name "~/.cargo/bin/yaskkserv2"))
-              ;'(skk-server-jisyo (expand-file-name "~/myskkdic"))
-              ;'(skk-server-inhibit-startup-server nil)
-              '(skk-share-private-jisyo t)
-              )
+             (with-eval-after-load 'skk (require 'ccc))
+             (setq skk-get-jisyo-directory "~/skk-get-jisyo") ; call M-x skk-jisyo
+             (setq skk-large-jisyo (expand-file-name "SKK-JISYO.L" skk-get-jisyo-directory))
+             (setq skk-share-private-jisyo t)
              ;(setq-default skk-kutouten-type 'en) ;; 句読点
-             (setq skk-mode-hook
-                   '(lambda()
-                      (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
-             :config
-             ; 効いてない?
              ;; (setq skk-mode-hook
              ;;       '(lambda()
              ;;          (advice-add 'skk-open-server :override 'skk-open-server-decoding-utf-8)))
@@ -377,6 +350,7 @@
                          ))
              )
 (use-package markdown-mode :ensure t
+             :after org
              :commands
              (markdown-mode gfm-mode)
              :mode
@@ -490,40 +464,47 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
              (setq flycheck-display-errors-function 'flycheck-display-error-messages-unless-error-list)
              )
 
-;; (use-package company :ensure t
-;;              :init
-;;              (bind-keys :map mode-specific-map
-;;                         ("M-n" . nil)
-;;                         ("M-p" . nil)
-;;                         ("C-n" . company-select-next)
-;;                         ("C-p" . company-select-previous)
-;;                         ("C-h" . nil)
-;;                         ("<tab>" . company-complete-common-or-cycle)
-;;                         ("M-d" . company-show-doc-buffer))
-;;              :config
-;;              (setq company-minimum-prefix-length 1)
-;;              (setq company-selection-wrap-around t)
-;;              (setq tab-always-indent :complete)
-;;              (set-face-attribute 'company-tooltip nil
-;;                                  :foreground "black"
-;;                                  :background "lightgray")
-;;              (set-face-attribute 'company-preview-common nil
-;;                                  :foreground "dark gray"
-;;                                  :background "black"
-;;                                  :underline t)
-;;              (set-face-attribute 'company-tooltip-selection nil
-;;                                  :background "steelblue"
-;;                                  :foreground "white")
-;;              (set-face-attribute 'company-tooltip-common nil
-;;                                  :foreground "black"
-;;                                  :underline t)
-;;              (set-face-attribute 'company-tooltip-common-selection nil
-;;                                  :foreground "white"
-;;                                  :background "steelblue"
-;;                                  :underline t)
-;;              (set-face-attribute 'company-tooltip-annotation nil
-;;                                  :foreground "red")
-;;              )
+(use-package company :ensure t
+             :init
+             (bind-keys :map mode-specific-map
+                        ("M-n" . nil)
+                        ("M-p" . nil)
+                        ("C-n" . company-select-next)
+                        ("C-p" . company-select-previous)
+                        ;("C-h" . nil)
+                        ("<tab>" . company-complete-common-or-cycle)
+                        ("M-d" . company-show-doc-buffer))
+             :config
+             (global-company-mode 1)
+             (setq company-idle-delay 3)
+             (setq company-minimum-prefix-length 1)
+             (setq company-selection-wrap-around t)
+             (setq tab-always-indent :complete)
+             (setq company-backends
+                   '((company-dabbrev-code :with company-same-mode-buffers)
+                     (company-keywords)
+                     (company-dabbrev)
+                     ))
+             (set-face-attribute 'company-tooltip nil
+                                 :foreground "black"
+                                 :background "lightgray")
+             (set-face-attribute 'company-preview-common nil
+                                 :foreground "dark gray"
+                                 :background "black"
+                                 :underline t)
+             (set-face-attribute 'company-tooltip-selection nil
+                                 :background "steelblue"
+                                 :foreground "white")
+             (set-face-attribute 'company-tooltip-common nil
+                                 :foreground "black"
+                                 :underline t)
+             (set-face-attribute 'company-tooltip-common-selection nil
+                                 :foreground "white"
+                                 :background "steelblue"
+                                 :underline t)
+             (set-face-attribute 'company-tooltip-annotation nil
+                                 :foreground "red")
+             )
 
 ;(use-package gtags-mode :ensure t
 ;             :init
@@ -722,6 +703,12 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 (use-package agent-shell
     :ensure t
 ;    :ensure-system-package
+  :config
+  (setq agent-shell-google-gemini-command
+        ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit")
+        '("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-pro-preview")
+        ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-flash-preview")
+        )
 )
 
 ; --------------------------------------------------
