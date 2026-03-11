@@ -54,7 +54,7 @@ PATH1=$PATH1:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
 #asdf reshim python
 
 # -- PATH2: my local installs
-PATH2=$PATH1:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
+PATH2=$PATH2:$DOTDIR/bin:$HOME/bin:$HOME/local/bin:$HOME/.local/bin
 
 # -- PATH3: package installs
 PATH3=/snap/bin
