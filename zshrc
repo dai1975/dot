@@ -45,8 +45,13 @@ PATH1=$PATH1:$HOME/.krew/bin #kubectl krew
 PATH1=$PATH1:$HOME/.pulumi/bin
 PATH1=$PATH1:$HOME/local/mutagen
 
+# sdkmanager "platform-tools;<latest>" # https://developer.android.com/tools/releases/platform-tools
+# sdkmanager "build-tools;<latest>" # https://developer/android.com/tools/releases/build-tools
+# sdkmanager "ndk;27.3.13750724" # LTS https://developer.android.com/ndk/downloads/revision_history
+# sdkmanager "platforms;android-xx" # target api level
 export ANDROID_HOME=$HOME/android-sdk
-export NDK_HOME=$ANDROID_HOME/ndk/26.1.10909125
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.3.13750724
+
 #export JAVA_HOME=/usr/local/android-studio/jbr
 export JAVA_HOME=/usr
 PATH1=$PATH1:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin;
@@ -262,7 +267,13 @@ function update-awscli-mfa() {
 
 ## -- X Window -------------------------------------------------------------
 if [ is_wsl2 ]; then
-   export DISPLAY=$(ip route | grep 'default via' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'):0
+   #export DISPLAY=$(ip route | grep 'default via' | grep -Eo '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'):0
+   DISPLAY=:0 # WSLg?
 fi
+
+## -- etc
+export PIP_EXCLUDE_NEWER="7d"
+alias npm='npm --min-release-age=7'
+alias pip='uv pip --exclude-newer "7 days"'
 
 test -f $HOME/.zshrc.local && source $HOME/.zshrc.local
