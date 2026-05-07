@@ -688,13 +688,17 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 
 ;(add-hook 'prog-mode-hook 'copilot-mode)
 
-;; -- claude code
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
-  :config
-  (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
-)
+;; ;; -- claude code
+;; (use-package claude-code-ide
+;;   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+;;   :bind (
+;;          ("C-c C-'" . claude-code-ide-menu) ; Set your favorite keybinding
+;;          :map vterm-mode-map
+;;          ("M-ESC" . claude-code-ide-send-escape)
+;;          )
+;;   :config
+;;   (claude-code-ide-emacs-tools-setup) ; Optionally enable Emacs MCP tools
+;; )
 ; when install fail with "empty package error message", test below
 ; cd tmp; git clone https://github.com/manzaltu/claude-code-ide.el
 ; (package-vc-install-from-checkout "/tmp/claude-code-ide.el")
