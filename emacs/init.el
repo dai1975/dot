@@ -703,13 +703,40 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
 (use-package agent-shell
     :ensure t
 ;    :ensure-system-package
-  :config
-  (setq agent-shell-google-gemini-command
-        ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit")
-        '("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-pro-preview")
-        ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-flash-preview")
-        )
+    :bind
+    (:map agent-shell-mode-map
+          ("RET" . newline)
+          ("C-c RET" . shell-maker-submit) ; most terminal treats Ctrl-Ret or Alt-Ret as specific key...
+          )
+    :config
+    ;; (setq agent-shell-google-gemini-acp-command
+    ;;     ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit")
+    ;;     '("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-pro-preview")
+    ;;     ;'("gemini" "--experimental-acp" "--approval-mode" "auto_edit" "--model" "gemini-3-flash-preview")
+    ;;     )
+    (setq agent-shell-session-strategy 'prompt)
+    ;(setq agent-shell-session-strategy 'new)
+    ;(setq agent-shell-session-strategy 'new-deferred)
+    :hook (agent-shell-mode . agent-shell-toggle-logging)
 )
+
+(use-package agent-shell-manager
+  :vc (:url "https://github.com/jethrokuan/agent-shell-manager")
+  :ensure t
+  :after agent-shell
+  :config
+  (setq agent-shell-manager-side 'left)
+)
+
+  
+;; (use-package agent-shell-workspace
+;;   :vc (:url "https://github.com/gveres/agent-shell-workspace")
+;;   :ensure t
+;;   :after agent-shell
+;;   ;:bind (:map agent-shell-command-map ("w" . agent-shell-workspace-toggle)) ; C-c A w
+;;   ; RET=forcus, a=add to time, x=remove from tile, t=untile c=crete, k=kill, q=close
+;; )
+
 
 ; --------------------------------------------------
 ;; https://emacs.stackexchange.com/questions/31646/how-to-paste-with-indentより転載
