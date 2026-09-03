@@ -1,4 +1,4 @@
-;;; -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t -*-
 ;;; init.el --- basic facilities
 ;;; Commentary:
 
@@ -724,13 +724,13 @@ document.addEventListener('DOMContentLoaded', () => { document.body.classList.ad
     :hook (agent-shell-mode . agent-shell-toggle-logging)
 )
 
-(use-package agent-shell-manager
-  :vc (:url "https://github.com/jethrokuan/agent-shell-manager")
-  :ensure t
-  :after agent-shell
-  :config
-  (setq agent-shell-manager-side 'left)
-)
+;; (use-package agent-shell-manager
+;;   :vc (:url "https://github.com/jethrokuan/agent-shell-manager")
+;;   :ensure t
+;;   :after agent-shell
+;;   :config
+;;   (setq agent-shell-manager-side 'left)
+;; )
 
   
 ;; (use-package agent-shell-workspace

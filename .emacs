@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t -*-
+
 (setq mydotdir "sDOTDIR")
 (setq load-path (append '("sDOTDIR/emacs") load-path))
 
